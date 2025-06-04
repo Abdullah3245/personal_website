@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
+import {Github, Linkedin, Mail } from "lucide-react"
 import ParticleBackground from "./ParticleBackground"
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
 
