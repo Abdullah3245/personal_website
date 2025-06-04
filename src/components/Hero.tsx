@@ -61,6 +61,7 @@ export default function Hero() {
             className={`transition-all duration-1000 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
             <p className="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">
+              Studying Computer Information Science. <br/>
               Passionate about Software Development, machine learning, and creating impact through technology.
             </p>
           </div>
@@ -106,9 +107,9 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ArrowDown size={24} className="text-gray-400" />
-        </div>
+        </div> */}
       </div>
     </section>
   )
