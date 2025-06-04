@@ -43,7 +43,7 @@ export default function Projects() {
       title: "Twitter Bot with Markov Chains",
       description:
         "Built a machine learning model that generates realistic tweets using Markov Chain fundamentals. Implemented comprehensive testing with JUnit for robust performance.",
-      image: "./files/twitterbot.jpeg",
+      image: "/files/twitterbot.jpeg",
       technologies: ["Java", "Markov Chains", "JUnit", "Natural Language Processing"],
       liveUrl: "#",
       githubUrl: "https://github.com/Abdullah3245/TwitterBot",

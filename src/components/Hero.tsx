@@ -28,7 +28,7 @@ export default function Hero() {
             <div className="relative mb-8 flex justify-center">
               <div className="relative">
                 <img
-                  src="./files/Abdullah.jpeg"
+                  src="/files/Abdullah.jpeg"
                   alt="Profile"
                   className="w-64 h-64 rounded-full border-4 border-white shadow-2xl hover:scale-110 transition-transform duration-300 relative z-10"
                 />
@@ -98,7 +98,7 @@ export default function Hero() {
               >
                 View My Work
               </button>
-              <a href="./files/Abdullah_resume.docx" download="Abdullah_resume" target="_blank" rel="noreferrer">
+              <a href="/files/Abdullah_resume.docx" download="Abdullah_resume" target="_blank" rel="noreferrer">
                 <button className="cursor-pointer px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transform hover:scale-105 transition-all duration-300">
                   Download CV
                 </button>
