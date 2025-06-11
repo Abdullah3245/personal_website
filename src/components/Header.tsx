@@ -6,9 +6,10 @@ import { Menu, X } from "lucide-react"
 interface HeaderProps {
   activeSection: string
   setActiveSection: (section: string) => void
+  onResumeClick: () => void
 }
 
-export default function Header({ activeSection, setActiveSection }: HeaderProps) {
+export default function Header({ activeSection, setActiveSection, onResumeClick }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -91,9 +92,12 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-            Abdullah
-          </div>
+          <button
+            onClick={onResumeClick}
+            className="cursor-pointer text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+          >
+            Resume
+          </button>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-4">

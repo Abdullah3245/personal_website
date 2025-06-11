@@ -100,9 +100,9 @@ export default function Hero() {
                 View My Work
               </button>
               <a href="/files/Abdullah_resume.docx" download="Abdullah_resume" target="_blank" rel="noreferrer">
-                <button className="cursor-pointer px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transform hover:scale-105 transition-all duration-300">
+                {/* <button className="cursor-pointer px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transform hover:scale-105 transition-all duration-300">
                   Download CV
-                </button>
+                </button> */}
               </a>
             </div>
           </div>
