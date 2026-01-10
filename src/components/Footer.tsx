@@ -28,9 +28,11 @@ export default function Footer() {
               <Linkedin size={24} />
             </a>
 
-            <a href="mailto:mgoher@seas.upenn.edu" className="text-gray-400 hover:text-white transition-colors">
+            <div onClick={() =>
+              window.open("https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu", "_blank")
+            } className="text-gray-400 hover:text-white cursor-pointer transition-colors">
               <Mail size={24} />
-            </a>
+            </div>
           </div>
         </div>
 

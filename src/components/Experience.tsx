@@ -16,31 +16,32 @@ export default function Experience() {
       period: "05/2025 - Present",
       type: "Full-time",
       description:
-        "Working under Post Doc student Pacco Barreras to assist them with their research on human mobility data.",
+        "Engineering a comprehensive human mobility research platform under Post Doc student Pacco Barreras, combining full-stack development with advanced AI technologies to revolutionize mobility data analysis.",
       achievements: [
-        "Developing a full stack React app which serves as the hub of human mobility data using version control",
-        "Implemented extensive testing with 90% code coverage using Cypress",
-        "Set up a backend with a MongoDB NoSQL database to store literature related to human mobility data",
-        "Assisted in the development of algorithms related to human mobility data",
+        "Engineered a full-stack 'human-mobility hub' using ReactJS + Vite, Node.js, and MongoDB with 90% end-to-end Cypress test coverage, ensuring reliable data ingestion and search functionality",
+        "Designed a custom Retrieval-Augmented Generation (RAG) pipeline, fine-tuning domain-specific LLMs and crafting optimized prompts to deliver fast, context-aware answers to research queries",
+        "Hosted large datasets of human mobility on AWS S3, generated dense vector embeddings, and deployed on Qdrant for low-latency semantic search across the research archive",
+        "Implemented version control systems and extensive testing protocols to maintain code quality and research reproducibility",
       ],
-      technologies: ["React", "Node.js", "NoSQL", "Cypress", "Git"],
+      technologies: ["React", "Vite", "Node.js", "MongoDB", "AWS S3", "Qdrant", "Cypress", "RAG", "LLMs"],
       website: "https://css.seas.upenn.edu/",
       color: "from-blue-500 to-indigo-600",
       icon: "research",
     },
     {
-      title: "Frontend Developer",
+      title: "Full Stack Developer",
       company: "Children's Hospital of Philadelphia",
       location: "Philadelphia, PA",
       period: "11/2024 - Present",
       type: "Part-time",
       description:
-        "Assisted the development of a full stack application working under a Professor at CHOP. Collaborated with a team of 8 people including backend developers and UX/UI designers to create intuitive user experiences.",
+        "Co-developing a comprehensive web platform with UX/UI designers and backend developers for autism research data management, serving 25+ clinicians and researchers with secure, efficient data handling and intuitive user experiences.",
       achievements: [
-        "Implemented a secure login using JWT with HttpOnly cookie to protect user info and prevent script attacks",
-        "Designed and optimized user interfaces using React-Redux and Tailwind, including a responsive dashboard and data entry forms (editing, deleting, and new entries) to streamline workflows for researchers and clinicians",
+        "Co-developed a web platform for autism-research data management using ReactJS (Vite), Django, and FastAPI, improving data accessibility for 25+ clinicians and researchers",
+        "Designed and optimized user interfaces using React-Redux and Tailwind CSS, including responsive dashboards and comprehensive data entry forms (editing, deleting, and new entries) to streamline workflows",
+        "Implemented secure, stateless authentication using JWT tokens in HTTP-only cookies and context-based data fetching for personalized researcher views",
       ],
-      technologies: ["Vite + React", "JavaScript", "MongoDB", "Django", "Figma", "Git"],
+      technologies: ["Vite + React", "Django", "FastAPI", "React-Redux", "Tailwind CSS", "JWT", "MongoDB", "Figma"],
       website: "https://www.research.chop.edu/people/birkan-tunc",
       color: "from-green-500 to-teal-600",
       icon: "frontend",
@@ -50,15 +51,16 @@ export default function Experience() {
       company: "Penn Assistive Devices and Prosthetic Technologies",
       location: "Philadelphia, PA",
       period: "09/2024 - Present",
-      type: "Full-time",
+      type: "Student Organization",
       description:
-        "Addressing surgical precision challenges by developing automated tool tracking systems to replace manual counting by nurses during procedures.",
+        "Leading the development of cutting-edge computer vision solutions for surgical precision, collaborating with Penn Medicine surgeons to create real-time tool tracking systems that enhance surgical safety and accuracy.",
       achievements: [
-        "Developing YOLOv11 and Segment Anything computer vision models to accurately distinguish between surgical tools",
-        "Worked with surgeons at Penn Medicine to curate a custom dataset for extensive model training",
-        "Trained YOLOv11 deep CNN model on 10,000+ images using custom + Kaggle datasets, achieving 90% accuracy in detecting and classifying surgical tools across varying angles",
+        "Collaborated in a 6-person team to develop computer vision models for real-time surgical tool detection and identification during procedures, enhancing surgical precision and safety",
+        "Curated custom datasets working directly with Penn Medicine surgeons and trained deep CNN and Vision Transformer models using PyTorch on combined Kaggle and custom datasets with 10,000+ images",
+        "Implemented YOLOv11 and Segment Anything models to accurately distinguish between different surgical instruments in real-time video feeds",
+        "Fine-tuned model weights through iterative training and optimization techniques, achieving 90% accuracy in detecting and classifying surgical tools across varying angles and lighting conditions",
       ],
-      technologies: ["YOLOv11", "Computer Vision", "PyTorch", "TensorFlow", "CUDA"],
+      technologies: ["YOLOv11", "Vision Transformers", "PyTorch", "Computer Vision", "CUDA", "Custom Dataset Curation"],
       website: "https://pennadapt.wixsite.com/pennadapt",
       color: "from-purple-500 to-pink-600",
       icon: "ml",
@@ -66,29 +68,57 @@ export default function Experience() {
     {
       title: "Machine Learning Engineer Intern",
       company: "Clab AI",
-      location: "Nashville, TN",
+      location: "Hybrid (Nashville & Remote)",
       period: "05/2024 - 08/2024",
       type: "Full-time",
       description:
-        "Contributed to the development of an AI platform aimed at assisting students with their university applications, currently used by hundreds of students.",
+        "Built an AI-powered admissions assistant platform now serving 100+ students, leveraging advanced machine learning techniques and data analysis to democratize college admissions guidance.",
       achievements: [
-        "Performed exploratory data analysis on data from over 100 universities using Pandas, NumPy, and Matplotlib to identify trends in financial aid distribution and accessibility",
-        "Trained Random Forest and Linear Regression models to predict financial aid eligibility for incoming students, with hyperparameter tuning and optimization",
-        "Assisted in training the AI co-pilot using reinforcement learning through human feedback",
+        "Built an AI-powered admissions assistant now used by 100+ students; performed comprehensive exploratory data analysis on 100+ university common datasets to uncover trends in financial aid awards",
+        "Developed Random Forest and Linear Regression models with hyperparameter tuning that predict individual aid eligibility with 82% R² accuracy on validation data",
+        "Automated data pipeline ETL scripts using Pandas and NumPy, reducing preprocessing time from hours to minutes and improving data workflow efficiency",
+        "Assisted in training the AI co-pilot using reinforcement learning through human feedback (RLHF) to improve response quality and user satisfaction",
       ],
-      technologies: ["Machine Learning", "Data Engineering", "Data Analysis", "Reinforcement Learning"],
+      technologies: [
+        "Machine Learning",
+        "Random Forest",
+        "Linear Regression",
+        "Pandas",
+        "NumPy",
+        "RLHF",
+        "ETL Pipelines",
+      ],
       website: "https://clabapp.ai/signin",
       color: "from-orange-500 to-red-600",
       icon: "intern",
     },
+    {
+      title: "Developer",
+      company: "UPenn Game Development and Research Club",
+      location: "Philadelphia, PA",
+      period: "08/2023 - 10/2024",
+      type: "Student Organization",
+      description:
+        "Contributed to collaborative game development projects, creating engaging 2D and 3D experiences while honing technical skills in Unity and C# programming within a team-based environment.",
+      achievements: [
+        "Designed team collaborative 2D and 3D games in Unity Game Engine using C#, publishing them on itch.io for public access and community engagement",
+        "Crafted more than 50 interactive UIs including main menus, HUD elements, and real-time statistics tracking systems for performance analysis and user experience optimization",
+        "Implemented comprehensive 3D physics and mechanics including gravity simulations, object collisions, instantiation systems, and dynamic lighting to create immersive gameplay experiences",
+        "Collaborated with fellow developers in an agile team environment, contributing to multiple published game projects and learning industry-standard development practices",
+      ],
+      technologies: ["Unity", "C#", "Game Development", "3D Physics", "UI/UX Design", "itch.io"],
+      website: "https://pennupgrade.com/",
+      color: "from-indigo-500 to-cyan-600",
+      icon: "gamedev",
+    },
   ]
 
-  // Updated stats to match your experience
+  // Updated stats to reflect your actual experience
   const stats = [
-    { number: "1+", label: "Years Experience" },
+    { number: "1.5+", label: "Years Experience" },
     { number: "4", label: "Organizations" },
-    { number: "5+", label: "Projects Delivered" },
-    { number: "10+", label: "Technologies Used" },
+    { number: "100+", label: "Students Impacted" },
+    { number: "15+", label: "Technologies Used" },
   ]
 
   const getIcon = (iconType: string) => {
@@ -211,32 +241,29 @@ export default function Experience() {
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className={`relative transition-all duration-1000 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
+                className={`relative transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                  }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 {/* Timeline dot with pulse effect */}
                 <div
-                  className={`absolute left-2 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-gradient-to-r ${exp.color} rounded-full border-4 border-white shadow-lg z-10 ${
-                    hoveredIndex === index ? "animate-pulse" : ""
-                  }`}
+                  className={`absolute left-2 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-gradient-to-r ${exp.color} rounded-full border-4 border-white shadow-lg z-10 ${hoveredIndex === index ? "animate-pulse" : ""
+                    }`}
                 ></div>
 
-                {/* Content card - REVERTED TO ORIGINAL ALTERNATING LAYOUT */}
+                {/* Content card */}
                 <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? "md:pr-1/2 md:text-right" : "md:pl-1/2 md:ml-8"}`}>
                   <div
-                    className={`bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group border-l-4 ${
-                      exp.color.includes("blue")
-                        ? "border-blue-500"
-                        : exp.color.includes("green")
-                          ? "border-green-500"
-                          : exp.color.includes("purple")
-                            ? "border-purple-500"
-                            : "border-orange-500"
-                    }`}
+                    className={`bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group border-l-4 ${exp.color.includes("blue")
+                      ? "border-blue-500"
+                      : exp.color.includes("green")
+                        ? "border-green-500"
+                        : exp.color.includes("purple")
+                          ? "border-purple-500"
+                          : "border-orange-500"
+                      }`}
                   >
                     {/* Header with icon */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
@@ -319,9 +346,8 @@ export default function Experience() {
 
         {/* Summary stats */}
         <div
-          className={`mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-800 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           {stats.map((stat, index) => (
             <div
