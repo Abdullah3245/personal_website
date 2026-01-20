@@ -96,15 +96,14 @@ export default function Hero() {
             <div className="mb-12 max-w-4xl mx-auto">
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
                 <p className="text-2xl md:text-3xl font-light text-gray-800 mb-2 leading-relaxed">
-                  Studying <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Computer Information Science</span>
-                </p>
-                <p className="text-lg md:text-xl text-gray-700 mb-4">
-                  <span className="font-semibold text-purple-600">Artificial Intelligence Concentration</span>
+                  B.S.E. & M.S.E. in <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Computer & Information Science</span>
                 </p>
                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                   Passionate about <span className="font-medium text-blue-600">Software Development</span>,
-                  <span className="font-medium text-blue-600"> Machine Learning</span>, and
-                  <span className="font-medium text-blue-600"> creating meaningful impact through technology</span>
+                  <span className="font-medium text-blue-600"> Machine Learning</span>,
+                  <span className="font-medium text-blue-600"> Data Science</span>
+                  , and 
+                  <span className="font-medium text-blue-600"> impact through technology</span>
                 </p>
               </div>
             </div>
