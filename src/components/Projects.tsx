@@ -5,7 +5,7 @@ const projects = [
     title: "Penn Muslim Alumni Data",
     description:
       "Developed a full stack alumni-networking platform with a custom database connecting 200+ community members. Built user-friendly alumni profile pages with structured fields, and implemented search, filter, and job-posting features.",
-    image: "./files/AlumniConnectAI.png",
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop",
     technologies: ["TypeScript", "PostgreSQL", "React", "Node.js", "Heroku"],
     liveUrl: "#",
     githubUrl: "#",
@@ -39,7 +39,7 @@ const projects = [
     title: "West Coast EV Explorer Platform",
     description:
       "Designed and implemented a normalized relational database schema about EVs and charging stations across the west coast. Developed materialized views and optimized SQL queries to support fast data fetching from the database of 100k+ rows.",
-    image: "/files/image.png",
+    image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&auto=format&fit=crop",
     technologies: ["PostgreSQL", "PostGIS", "Node.js", "Express", "React"],
     liveUrl: "#",
     githubUrl: "#",
@@ -50,6 +50,57 @@ const projects = [
       "Normalized relational database with 100k+ rows",
       "Materialized views for optimized queries",
       "Backend APIs for zip-code EV lookups and nearest charger search",
+    ],
+  },
+  {
+    title: "AlumniConnectAI",
+    description:
+      "Alumni can be a great help for current students. AlumniConnectAI allows you to effectively scrape alumni information and connect with them through an intelligent matching system.",
+    image: "./files/AlumniConnectAI.png",
+    technologies: ["Vite + React", "Web Scraping", "Chrome Extension", "Stripe"],
+    liveUrl: "https://alumniconnectai.lovable.app/",
+    githubUrl: "https://github.com/Abdullah3245/AlumniConnectAI?tab=readme-ov-file",
+    gradient: "from-blue-500 to-purple-600",
+    category: "Full Stack",
+    status: "Live",
+    highlights: [
+      "Chrome extension for seamless LinkedIn integration",
+      "Stripe payment processing for premium features",
+      "AI-powered alumni matching algorithm",
+    ],
+  },
+  {
+    title: "J to RISC-V Compiler",
+    description:
+      "Designed and implemented a compiler (jc) to translate programs written in a stack-oriented language (J) into RISC-V assembly code with full interoperability support.",
+    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&auto=format&fit=crop",
+    technologies: ["C", "RISC-V Assembly", "Compiler Design", "Token Parsing"],
+    liveUrl: "#",
+    githubUrl: "#",
+    gradient: "from-purple-500 to-indigo-600",
+    category: "Systems Programming",
+    status: "Completed",
+    highlights: [
+      "Token parsing system with modular design (token.h/token.c)",
+      "RISC-V assembly generation for arithmetic and logical operations",
+      "Standard calling conventions for Clang interoperability",
+    ],
+  },
+  {
+    title: "Twitter Bot with Markov Chains",
+    description:
+      "Developed a machine learning model to generate tweets using Markov chain algorithms for statistical word sequence calculation, ensuring coherent and contextually relevant content generation.",
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop",
+    technologies: ["Java", "Markov Chains", "JUnit", "Machine Learning"],
+    liveUrl: "#",
+    githubUrl: "https://github.com/Abdullah3245/TwitterBot",
+    gradient: "from-orange-500 to-red-600",
+    category: "Machine Learning",
+    status: "Completed",
+    highlights: [
+      "Markov chain algorithm for statistical word sequence calculation",
+      "Comprehensive testing and fine-tuning with 90% code coverage",
+      "Enhanced engagement through coherent tweet generation",
     ],
   },
 ]
