@@ -7,7 +7,7 @@ const projects = [
       "Designed and built Nomad, a full-stack human-mobility research platform to make human mobility datasets, algorithms, and resources more accessible to Computational Social Science researchers.",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-02-12%20at%205.50.44%E2%80%AFPM-zCmAflXehiF8X4bwQJTX4IYmHMZVx6.png",
     technologies: ["React", "Vite", "Express", "MongoDB", "AWS S3", "Cypress", "Vitest", "LLMs", "Generative AI"],
-    liveUrl: "mailto:nomad@seas.upenn.edu",
+    liveUrl: "https://nomad.seas.upenn.edu",
     githubUrl: "#",
     gradient: "from-indigo-500 to-purple-600",
     category: "Full Stack",
