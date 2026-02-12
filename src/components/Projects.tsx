@@ -2,6 +2,24 @@ import { ExternalLink } from "lucide-react"
 
 const projects = [
   {
+    title: "Nomad",
+    description:
+      "Designed and built Nomad, a full-stack human-mobility research platform to make human mobility datasets, algorithms, and resources more accessible to Computational Social Science researchers.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-02-12%20at%205.50.44%E2%80%AFPM-zCmAflXehiF8X4bwQJTX4IYmHMZVx6.png",
+    technologies: ["React", "Vite", "Express", "MongoDB", "AWS S3", "Cypress", "Vitest", "LLMs", "Generative AI"],
+    liveUrl: "mailto:nomad@seas.upenn.edu",
+    githubUrl: "#",
+    gradient: "from-indigo-500 to-purple-600",
+    category: "Full Stack",
+    status: "Live",
+    highlights: [
+      "Custom MVC architecture with Express and MongoDB RESTful APIs",
+      "AWS S3 cloud storage for mobility literature scalability",
+      "High test coverage with Cypress (frontend) and Vitest (backend)",
+      "Automated LLM pipeline to extract JSON from 100+ scholarly papers",
+    ],
+  },
+  {
     title: "Penn Muslim Alumni Data",
     description:
       "Developed a full stack alumni-networking platform with a custom database connecting 200+ community members. Built user-friendly alumni profile pages with structured fields, and implemented search, filter, and job-posting features.",
