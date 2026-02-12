@@ -73,7 +73,7 @@ const projects = [
     title: "J to RISC-V Compiler",
     description:
       "Designed and implemented a compiler (jc) to translate programs written in a stack-oriented language (J) into RISC-V assembly code with full interoperability support.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&auto=format&fit=crop",
+    image: "/files/image.png",
     technologies: ["C", "RISC-V Assembly", "Compiler Design", "Token Parsing"],
     liveUrl: "#",
     githubUrl: "#",
@@ -90,7 +90,7 @@ const projects = [
     title: "Twitter Bot with Markov Chains",
     description:
       "Developed a machine learning model to generate tweets using Markov chain algorithms for statistical word sequence calculation, ensuring coherent and contextually relevant content generation.",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop",
+    image: "/files/twitterbot.jpeg",
     technologies: ["Java", "Markov Chains", "JUnit", "Machine Learning"],
     liveUrl: "#",
     githubUrl: "https://github.com/Abdullah3245/TwitterBot",

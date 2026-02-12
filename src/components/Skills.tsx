@@ -9,13 +9,37 @@ export default function Skills() {
       title: "Programming Languages",
       icon: Code,
       color: "from-blue-500 to-blue-600",
-      skills: ["Python", "JavaScript", "SQL", "C", "R"],
+      skills: ["Python", "JavaScript", "TypeScript", "Java", "SQL"],
     },
     {
-      title: "Frameworks & Libraries",
+      title: "Frontend Development",
       icon: Palette,
       color: "from-purple-500 to-purple-600",
-      skills: ["Pandas", "NumPy", "Scikit-learn", "PySpark", "Apache Spark", "Matplotlib", "PyTorch", "GeoPandas", "R studio", "Excel"],
+      skills: ["React", "Vite", "HTML/CSS", "Tailwind CSS", "Redux", "Figma"],
+    },
+    {
+      title: "Backend & Databases",
+      icon: Database,
+      color: "from-green-500 to-green-600",
+      skills: ["Node.js", "Express", "Django", "MongoDB", "PostgreSQL", "DuckDB"],
+    },
+    {
+      title: "Machine Learning & AI",
+      icon: Brain,
+      color: "from-orange-500 to-red-600",
+      skills: ["PyTorch", "TensorFlow", "Scikit-Learn", "XGBoost", "Computer Vision", "NLP"],
+    },
+    {
+      title: "Data Science & Analytics",
+      icon: Database,
+      color: "from-teal-500 to-cyan-600",
+      skills: ["Pandas", "NumPy", "Matplotlib", "Data Analysis", "Statistical Modeling", "Feature Engineering"],
+    },
+    {
+      title: "Tools & Technologies",
+      icon: Wrench,
+      color: "from-gray-600 to-gray-700",
+      skills: ["Git", "Docker", "AWS", "Cypress", "JUnit", "Chrome Extensions", "Web Scraping"],
     },
   ]
 
@@ -37,7 +61,7 @@ export default function Skills() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories.map((category, categoryIndex) => (
             <div
               key={category.title}
