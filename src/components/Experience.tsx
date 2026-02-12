@@ -10,38 +10,37 @@ export default function Experience() {
 
   const experiences = [
     {
-      title: "Research Assistant",
+      title: "Data Science Research Assistant",
       company: "Computational Social Science Lab",
       location: "Philadelphia, PA",
-      period: "05/2025 - Present",
+      period: "05/2025 - 12/2025",
       type: "Full-time",
       description:
-        "Engineering a comprehensive human mobility research platform under Post Doc student Pacco Barreras, combining full-stack development with advanced AI technologies to revolutionize mobility data analysis.",
+        "Collaborate with the Disaster Management team to derive key mobility and infrastructure metrics for disaster and tourist management during the 2026 FIFA World Cup.",
       achievements: [
-        "Engineered a full-stack 'human-mobility hub' using ReactJS + Vite, Node.js, and MongoDB with 90% end-to-end Cypress test coverage, ensuring reliable data ingestion and search functionality",
-        "Designed a custom Retrieval-Augmented Generation (RAG) pipeline, fine-tuning domain-specific LLMs and crafting optimized prompts to deliver fast, context-aware answers to research queries",
-        "Hosted large datasets of human mobility on AWS S3, generated dense vector embeddings, and deployed on Qdrant for low-latency semantic search across the research archive",
-        "Implemented version control systems and extensive testing protocols to maintain code quality and research reproducibility",
+        "Analyze multi-terabyte GPS mobility geospatial datasets (Meta Crisis Population, Factori, SafeGraph) using Apache PySpark on AWS EMR to compute high-resolution crowd-density and movement trends",
+        "Visualized insights through heat maps and geospatial plots of GPS pings and POI polygons using Matplotlib and GeoPandas",
+        "Developed an Generative AI (RAG) extraction pipeline to identify quantitative mobility metrics from 100s of scholarly papers",
       ],
-      technologies: ["React", "Vite", "Node.js", "MongoDB", "AWS S3", "Qdrant", "Cypress", "RAG", "LLMs"],
+      technologies: ["Apache PySpark", "AWS EMR", "Matplotlib", "GeoPandas", "RAG", "Geospatial Data"],
       website: "https://css.seas.upenn.edu/",
       color: "from-blue-500 to-indigo-600",
       icon: "research",
     },
     {
-      title: "Full Stack Developer",
+      title: "Full Stack Web Developer",
       company: "Children's Hospital of Philadelphia",
       location: "Philadelphia, PA",
-      period: "11/2024 - Present",
+      period: "11/2024 - 08/2025",
       type: "Part-time",
       description:
-        "Co-developing a comprehensive web platform with UX/UI designers and backend developers for autism research data management, serving 25+ clinicians and researchers with secure, efficient data handling and intuitive user experiences.",
+        "Assisted in development of Compsy full stack web app used by researchers to design behavioral and clinical experiments.",
       achievements: [
-        "Co-developed a web platform for autism-research data management using ReactJS (Vite), Django, and FastAPI, improving data accessibility for 25+ clinicians and researchers",
-        "Designed and optimized user interfaces using React-Redux and Tailwind CSS, including responsive dashboards and comprehensive data entry forms (editing, deleting, and new entries) to streamline workflows",
-        "Implemented secure, stateless authentication using JWT tokens in HTTP-only cookies and context-based data fetching for personalized researcher views",
+        "Designed and implemented user interfaces - including a responsive dashboard and 15+ data-entry forms (create, edit, delete) - using React (Vite), Tailwind, and REST API integration via GET, POST, and FETCH requests from a NoSQL MongoDB",
+        "Implemented secure, stateless authentication (JWT in HTTP-only cookies) and context-based user data fetching",
+        "Added responsive design support through media queries and component-level breakpoints, ensuring consistent UI behavior across desktops, tablets, and mobile devices",
       ],
-      technologies: ["Vite + React", "Django", "FastAPI", "React-Redux", "Tailwind CSS", "JWT", "MongoDB", "Figma"],
+      technologies: ["React", "Vite", "Tailwind", "MongoDB", "REST API", "JWT"],
       website: "https://www.research.chop.edu/people/birkan-tunc",
       color: "from-green-500 to-teal-600",
       icon: "frontend",
@@ -53,73 +52,45 @@ export default function Experience() {
       period: "09/2024 - Present",
       type: "Student Organization",
       description:
-        "Leading the development of cutting-edge computer vision solutions for surgical precision, collaborating with Penn Medicine surgeons to create real-time tool tracking systems that enhance surgical safety and accuracy.",
+        "Collaborated in a team of 10 engineers to develop a computer vision model for counting and identifying surgical tools in real-time during procedures, aiming to enhance surgical precision and safety.",
       achievements: [
-        "Collaborated in a 6-person team to develop computer vision models for real-time surgical tool detection and identification during procedures, enhancing surgical precision and safety",
-        "Curated custom datasets working directly with Penn Medicine surgeons and trained deep CNN and Vision Transformer models using PyTorch on combined Kaggle and custom datasets with 10,000+ images",
-        "Implemented YOLOv11 and Segment Anything models to accurately distinguish between different surgical instruments in real-time video feeds",
-        "Fine-tuned model weights through iterative training and optimization techniques, achieving 90% accuracy in detecting and classifying surgical tools across varying angles and lighting conditions",
+        "Curated and annotated custom dataset in collaboration with surgeons and nurses at Penn Medicine to train deep CNN and Vision transformer models with over 1500+ images",
+        "Fine-tuned model weights through iterative training and optimization techniques, achieving 90+% accuracy in detecting and classifying surgical tools across varying angles",
       ],
-      technologies: ["YOLOv11", "Vision Transformers", "PyTorch", "Computer Vision", "CUDA", "Custom Dataset Curation"],
+      technologies: ["PyTorch", "Computer Vision", "CNN", "Vision Transformers", "Deep Learning"],
       website: "https://pennadapt.wixsite.com/pennadapt",
       color: "from-purple-500 to-pink-600",
       icon: "ml",
     },
     {
-      title: "Machine Learning Engineer Intern",
+      title: "Data Analyst Intern",
       company: "Clab AI",
       location: "Hybrid (Nashville & Remote)",
       period: "05/2024 - 08/2024",
       type: "Full-time",
       description:
-        "Built an AI-powered admissions assistant platform now serving 100+ students, leveraging advanced machine learning techniques and data analysis to democratize college admissions guidance.",
+        "Assisted in development of an AI-powered college application assistant used by 100+ students to improve admission outcomes.",
       achievements: [
-        "Built an AI-powered admissions assistant now used by 100+ students; performed comprehensive exploratory data analysis on 100+ university common datasets to uncover trends in financial aid awards",
-        "Developed Random Forest and Linear Regression models with hyperparameter tuning that predict individual aid eligibility with 82% R² accuracy on validation data",
-        "Automated data pipeline ETL scripts using Pandas and NumPy, reducing preprocessing time from hours to minutes and improving data workflow efficiency",
-        "Assisted in training the AI co-pilot using reinforcement learning through human feedback (RLHF) to improve response quality and user satisfaction",
+        "Performed extensive EDA, data cleaning, and visualization on a dataset covering 100+ universities, uncovering trends in financial-aid awards and admissions patterns",
+        "Developed Random-Forest and Linear-Regression models (with hyper-parameter tuning) that predict individual aid eligibility with 82% R² on validation data",
+        "Fine-tuned LLMs on hundreds of accepted Common App essays, incorporating reinforcement learning from human feedback (RLHF) to improve personalization and writing guidance",
       ],
       technologies: [
-        "Machine Learning",
+        "Python",
         "Random Forest",
         "Linear Regression",
         "Pandas",
-        "NumPy",
+        "EDA",
         "RLHF",
-        "ETL Pipelines",
+        "LLMs",
       ],
       website: "https://clabapp.ai/signin",
       color: "from-orange-500 to-red-600",
       icon: "intern",
     },
-    {
-      title: "Developer",
-      company: "UPenn Game Development and Research Club",
-      location: "Philadelphia, PA",
-      period: "08/2023 - 10/2024",
-      type: "Student Organization",
-      description:
-        "Contributed to collaborative game development projects, creating engaging 2D and 3D experiences while honing technical skills in Unity and C# programming within a team-based environment.",
-      achievements: [
-        "Designed team collaborative 2D and 3D games in Unity Game Engine using C#, publishing them on itch.io for public access and community engagement",
-        "Crafted more than 50 interactive UIs including main menus, HUD elements, and real-time statistics tracking systems for performance analysis and user experience optimization",
-        "Implemented comprehensive 3D physics and mechanics including gravity simulations, object collisions, instantiation systems, and dynamic lighting to create immersive gameplay experiences",
-        "Collaborated with fellow developers in an agile team environment, contributing to multiple published game projects and learning industry-standard development practices",
-      ],
-      technologies: ["Unity", "C#", "Game Development", "3D Physics", "UI/UX Design", "itch.io"],
-      website: "https://pennupgrade.com/",
-      color: "from-indigo-500 to-cyan-600",
-      icon: "gamedev",
-    },
   ]
 
-  // Updated stats to reflect your actual experience
-  const stats = [
-    { number: "1.5+", label: "Years Experience" },
-    { number: "4", label: "Organizations" },
-    { number: "100+", label: "Students Impacted" },
-    { number: "15+", label: "Technologies Used" },
-  ]
+
 
   const getIcon = (iconType: string) => {
     switch (iconType) {
@@ -344,23 +315,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Summary stats */}
-        <div
-          className={`mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-        >
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg hover:bg-white/90 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg border border-gray-100"
-            >
-              <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
-                {stat.number}
-              </div>
-              <div className="text-gray-600 text-sm font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </section>
   )

@@ -1,6 +1,75 @@
-import { ExternalLink, Star, Users, Calendar } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
 const projects = [
+  {
+    title: "Nomad",
+    description:
+      "Designed and built Nomad, a full-stack human-mobility research platform to make human mobility datasets, algorithms, and resources more accessible to Computational Social Science researchers.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-02-12%20at%205.50.44%E2%80%AFPM-zCmAflXehiF8X4bwQJTX4IYmHMZVx6.png",
+    technologies: ["React", "Vite", "Express", "MongoDB", "AWS S3", "Cypress", "Vitest", "LLMs", "Generative AI"],
+    liveUrl: "https://nomad.seas.upenn.edu",
+    githubUrl: "#",
+    gradient: "from-indigo-500 to-purple-600",
+    category: "Full Stack",
+    status: "Live",
+    highlights: [
+      "Custom MVC architecture with Express and MongoDB RESTful APIs",
+      "AWS S3 cloud storage for mobility literature scalability",
+      "High test coverage with Cypress (frontend) and Vitest (backend)",
+      "Automated LLM pipeline to extract JSON from 100+ scholarly papers",
+    ],
+  },
+  {
+    title: "Penn Muslim Alumni Data",
+    description:
+      "Developed a full stack alumni-networking platform with a custom database connecting 200+ community members. Built user-friendly alumni profile pages with structured fields, and implemented search, filter, and job-posting features.",
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop",
+    technologies: ["TypeScript", "PostgreSQL", "React", "Node.js", "Heroku"],
+    liveUrl: "#",
+    githubUrl: "#",
+    gradient: "from-blue-500 to-purple-600",
+    category: "Full Stack",
+    status: "Live",
+    highlights: [
+      "Full stack platform connecting 200+ alumni",
+      "Custom PostgreSQL database schema",
+      "Search, filter, and job-posting features",
+    ],
+  },
+  {
+    title: "Steam Dataset EDA and Modeling",
+    description:
+      "Conducted data cleaning, preprocessing, and data visualisation to prepare dataset with 110k+ games for analysis. Built predictive models (Random Forest, XGBoost, LightGBM) to analyze factors influencing game success.",
+    image: "./files/SteamDataSet.png",
+    technologies: ["Python", "pandas", "scikit-learn", "SciPy", "matplotlib"],
+    liveUrl: "https://colab.research.google.com/drive/1hapeUwkCeNfUn-uXfLU99tli3u7seR_M?usp=sharing",
+    githubUrl: "https://github.com/Abdullah3245/Steam_Data_Analysis",
+    gradient: "from-green-500 to-teal-600",
+    category: "Data Science",
+    status: "Completed",
+    highlights: [
+      "Processed 110k+ games with data cleaning and visualization",
+      "Built predictive models with Random Forest, XGBoost, LightGBM",
+      "EDA with Matplotlib, Seaborn, Plotly to visualize feature importance",
+    ],
+  },
+  {
+    title: "West Coast EV Explorer Platform",
+    description:
+      "Designed and implemented a normalized relational database schema about EVs and charging stations across the west coast. Developed materialized views and optimized SQL queries to support fast data fetching from the database of 100k+ rows.",
+    image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&auto=format&fit=crop",
+    technologies: ["PostgreSQL", "PostGIS", "Node.js", "Express", "React"],
+    liveUrl: "#",
+    githubUrl: "#",
+    gradient: "from-purple-500 to-indigo-600",
+    category: "Full Stack",
+    status: "Completed",
+    highlights: [
+      "Normalized relational database with 100k+ rows",
+      "Materialized views for optimized queries",
+      "Backend APIs for zip-code EV lookups and nearest charger search",
+    ],
+  },
   {
     title: "AlumniConnectAI",
     description:
@@ -33,23 +102,6 @@ const projects = [
       "Token parsing system with modular design (token.h/token.c)",
       "RISC-V assembly generation for arithmetic and logical operations",
       "Standard calling conventions for Clang interoperability",
-    ],
-  },
-  {
-    title: "Steam Data Analysis",
-    description:
-      "Collaborated on a comprehensive analysis of Steam dataset with 12M+ records and 90,000+ games to predict game success rates before release using advanced machine learning techniques.",
-    image: "./files/SteamDataSet.png",
-    technologies: ["Pandas", "Scikit-Learn", "Matplotlib", "DuckDB", "XGBoost"],
-    liveUrl: "https://colab.research.google.com/drive/1hapeUwkCeNfUn-uXfLU99tli3u7seR_M?usp=sharing",
-    githubUrl: "https://github.com/Abdullah3245/Steam_Data_Analysis",
-    gradient: "from-green-500 to-teal-600",
-    category: "Data Science",
-    status: "Completed",
-    highlights: [
-      "Processed 12M+ records with advanced data cleaning",
-      "Achieved 85%+ accuracy with XGBoost and Random Forest",
-      "Comprehensive feature engineering and hyperparameter tuning",
     ],
   },
   {
@@ -116,24 +168,6 @@ const Projects = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Project Stats</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { number: "4+", label: "Featured Projects", icon: Star },
-              { number: "2", label: "Live Applications", icon: ExternalLink },
-              { number: "90%+", label: "Code Coverage", icon: Users },
-              { number: "12M+", label: "Records Processed", icon: Calendar },
-            ].map((stat, index) => (
-              <div key={index} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center">
-                <stat.icon className="h-6 w-6 text-gray-500 mb-2" />
-                <div className="text-xl font-bold">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

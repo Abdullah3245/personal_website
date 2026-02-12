@@ -96,43 +96,6 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Skills Summary */}
-        <div
-          className={`mt-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 transition-all duration-1000 delay-800 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Technical Expertise</h3>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              My technical stack spans across full-stack development, machine learning, and data science, enabling me to
-              build end-to-end solutions from research to production.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { number: "7+", label: "Programming Languages", icon: Code },
-              { number: "15+", label: "Frameworks & Libraries", icon: Wrench },
-              { number: "5+", label: "ML/AI Technologies", icon: Brain },
-              { number: "10+", label: "Development Tools", icon: Cloud },
-            ].map((stat, index) => (
-              <div
-                key={index}
-                className="text-center p-4 bg-white/60 backdrop-blur-sm rounded-lg hover:bg-white/80 transition-all duration-300 transform hover:scale-105"
-              >
-                <div className="flex justify-center mb-2">
-                  <stat.icon className="text-blue-600" size={24} />
-                </div>
-                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600 text-sm font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Highlighted Specializations */}
         <div
           className={`mt-12 transition-all duration-1000 delay-1000 ${
@@ -142,12 +105,11 @@ export default function Skills() {
           <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">Current Focus Areas</h3>
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              "Computer Vision",
-              "Full-Stack Development",
               "Data Science",
-              "Research & Development",
-              "Machine Learning Engineering",
-              "Web Scraping & Automation",
+              "Machine Learning",
+              "Full-Stack Development",
+              "Big Data Analytics",
+              "Computer Vision",
             ].map((focus, index) => (
               <span
                 key={focus}
