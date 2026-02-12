@@ -1,72 +1,55 @@
-import { ExternalLink, Star, Users, Calendar } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
 const projects = [
   {
-    title: "AlumniConnectAI",
+    title: "Penn Muslim Alumni Data",
     description:
-      "Alumni can be a great help for current students. AlumniConnectAI allows you to effectively scrape alumni information and connect with them through an intelligent matching system.",
+      "Developed a full stack alumni-networking platform with a custom database connecting 200+ community members. Built user-friendly alumni profile pages with structured fields, and implemented search, filter, and job-posting features.",
     image: "./files/AlumniConnectAI.png",
-    technologies: ["Vite + React", "Web Scraping", "Chrome Extension", "Stripe"],
-    liveUrl: "https://alumniconnectai.lovable.app/",
-    githubUrl: "https://github.com/Abdullah3245/AlumniConnectAI?tab=readme-ov-file",
+    technologies: ["TypeScript", "PostgreSQL", "React", "Node.js", "Heroku"],
+    liveUrl: "#",
+    githubUrl: "#",
     gradient: "from-blue-500 to-purple-600",
     category: "Full Stack",
     status: "Live",
     highlights: [
-      "Chrome extension for seamless LinkedIn integration",
-      "Stripe payment processing for premium features",
-      "AI-powered alumni matching algorithm",
+      "Full stack platform connecting 200+ alumni",
+      "Custom PostgreSQL database schema",
+      "Search, filter, and job-posting features",
     ],
   },
   {
-    title: "J to RISC-V Compiler",
+    title: "Steam Dataset EDA and Modeling",
     description:
-      "Designed and implemented a compiler (jc) to translate programs written in a stack-oriented language (J) into RISC-V assembly code with full interoperability support.",
-    image: "/files/image.png",
-    technologies: ["C", "RISC-V Assembly", "Compiler Design", "Token Parsing"],
-    liveUrl: "#",
-    githubUrl: "#",
-    gradient: "from-purple-500 to-indigo-600",
-    category: "Systems Programming",
-    status: "Completed",
-    highlights: [
-      "Token parsing system with modular design (token.h/token.c)",
-      "RISC-V assembly generation for arithmetic and logical operations",
-      "Standard calling conventions for Clang interoperability",
-    ],
-  },
-  {
-    title: "Steam Data Analysis",
-    description:
-      "Collaborated on a comprehensive analysis of Steam dataset with 12M+ records and 90,000+ games to predict game success rates before release using advanced machine learning techniques.",
+      "Conducted data cleaning, preprocessing, and data visualisation to prepare dataset with 110k+ games for analysis. Built predictive models (Random Forest, XGBoost, LightGBM) to analyze factors influencing game success.",
     image: "./files/SteamDataSet.png",
-    technologies: ["Pandas", "Scikit-Learn", "Matplotlib", "DuckDB", "XGBoost"],
+    technologies: ["Python", "pandas", "scikit-learn", "SciPy", "matplotlib"],
     liveUrl: "https://colab.research.google.com/drive/1hapeUwkCeNfUn-uXfLU99tli3u7seR_M?usp=sharing",
     githubUrl: "https://github.com/Abdullah3245/Steam_Data_Analysis",
     gradient: "from-green-500 to-teal-600",
     category: "Data Science",
     status: "Completed",
     highlights: [
-      "Processed 12M+ records with advanced data cleaning",
-      "Achieved 85%+ accuracy with XGBoost and Random Forest",
-      "Comprehensive feature engineering and hyperparameter tuning",
+      "Processed 110k+ games with data cleaning and visualization",
+      "Built predictive models with Random Forest, XGBoost, LightGBM",
+      "EDA with Matplotlib, Seaborn, Plotly to visualize feature importance",
     ],
   },
   {
-    title: "Twitter Bot with Markov Chains",
+    title: "West Coast EV Explorer Platform",
     description:
-      "Developed a machine learning model to generate tweets using Markov chain algorithms for statistical word sequence calculation, ensuring coherent and contextually relevant content generation.",
-    image: "/files/twitterbot.jpeg",
-    technologies: ["Java", "Markov Chains", "JUnit", "Machine Learning"],
+      "Designed and implemented a normalized relational database schema about EVs and charging stations across the west coast. Developed materialized views and optimized SQL queries to support fast data fetching from the database of 100k+ rows.",
+    image: "/files/image.png",
+    technologies: ["PostgreSQL", "PostGIS", "Node.js", "Express", "React"],
     liveUrl: "#",
-    githubUrl: "https://github.com/Abdullah3245/TwitterBot",
-    gradient: "from-orange-500 to-red-600",
-    category: "Machine Learning",
+    githubUrl: "#",
+    gradient: "from-purple-500 to-indigo-600",
+    category: "Full Stack",
     status: "Completed",
     highlights: [
-      "Markov chain algorithm for statistical word sequence calculation",
-      "Comprehensive testing and fine-tuning with 90% code coverage",
-      "Enhanced engagement through coherent tweet generation",
+      "Normalized relational database with 100k+ rows",
+      "Materialized views for optimized queries",
+      "Backend APIs for zip-code EV lookups and nearest charger search",
     ],
   },
 ]
@@ -116,24 +99,6 @@ const Projects = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Project Stats</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { number: "4+", label: "Featured Projects", icon: Star },
-              { number: "2", label: "Live Applications", icon: ExternalLink },
-              { number: "90%+", label: "Code Coverage", icon: Users },
-              { number: "12M+", label: "Records Processed", icon: Calendar },
-            ].map((stat, index) => (
-              <div key={index} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center">
-                <stat.icon className="h-6 w-6 text-gray-500 mb-2" />
-                <div className="text-xl font-bold">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
