@@ -90,13 +90,7 @@ export default function Experience() {
     },
   ]
 
-  // Updated stats to reflect your actual experience
-  const stats = [
-    { number: "1.5+", label: "Years Experience" },
-    { number: "4", label: "Organizations" },
-    { number: "100+", label: "Students Impacted" },
-    { number: "12+", label: "Technologies Used" },
-  ]
+
 
   const getIcon = (iconType: string) => {
     switch (iconType) {
@@ -321,23 +315,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Summary stats */}
-        <div
-          className={`mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-        >
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg hover:bg-white/90 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg border border-gray-100"
-            >
-              <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
-                {stat.number}
-              </div>
-              <div className="text-gray-600 text-sm font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </section>
   )
