@@ -20,10 +20,11 @@ const COLORS = [
   "96, 165, 250",   // blue-400
 ]
 
-const MOUSE_RADIUS = 120
-const REPEL_STRENGTH = 6
-const DAMPING = 0.98
-const NUM_BALLS = 35
+const MOUSE_RADIUS = 130
+const REPEL_STRENGTH = 7
+const DAMPING = 0.995
+const BASE_SPEED = 1.2
+const NUM_BALLS = 70
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -70,8 +71,8 @@ export default function ParticleBackground() {
       balls.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
+        vx: (Math.random() - 0.5) * BASE_SPEED * 2,
+        vy: (Math.random() - 0.5) * BASE_SPEED * 2,
         radius,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         opacity: Math.random() * 0.35 + 0.25,
@@ -94,16 +95,23 @@ export default function ParticleBackground() {
           ball.vy += Math.sin(angle) * force * REPEL_STRENGTH
         }
 
+        // Wander: small random nudge each frame to keep balls moving
+        ball.vx += (Math.random() - 0.5) * 0.08
+        ball.vy += (Math.random() - 0.5) * 0.08
+
         // Damping
         ball.vx *= DAMPING
         ball.vy *= DAMPING
 
-        // Clamp speed
+        // Clamp speed between min and max
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy)
-        const maxSpeed = 8
+        const maxSpeed = 9
         if (speed > maxSpeed) {
           ball.vx = (ball.vx / speed) * maxSpeed
           ball.vy = (ball.vy / speed) * maxSpeed
+        } else if (speed < BASE_SPEED && speed > 0) {
+          ball.vx = (ball.vx / speed) * BASE_SPEED
+          ball.vy = (ball.vy / speed) * BASE_SPEED
         }
 
         // Update position
