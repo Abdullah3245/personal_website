@@ -34,6 +34,7 @@ export default function Hero() {
     <section
       id="home"
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-16 relative overflow-hidden"
+      style={{ cursor: "default" }}
     >
       <ParticleBackground />
 
