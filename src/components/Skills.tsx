@@ -1,5 +1,5 @@
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
-import { Code, Database, Brain, Wrench, Palette, Cloud } from "lucide-react"
+import { Code, Database, Brain, Wrench, Palette } from "lucide-react"
 
 export default function Skills() {
   const { ref, isVisible } = useScrollAnimation()

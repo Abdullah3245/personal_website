@@ -51,9 +51,9 @@ export default function Hero() {
             <div className="relative mt-10 mb-8 flex justify-center">
               <div className="relative">
                 <img
-                  src="/files/Abdullah_2.jpg"
+                  src="/files/Abdullah_new.jpg"
                   alt="Profile"
-                  className="w-72 h-72 rounded-full border-4 border-white shadow-2xl hover:scale-110 transition-transform duration-300 relative z-10 object-cover object-[center_25%]"
+                  className="w-80 h-80 rounded-full border-4 border-white shadow-2xl hover:scale-110 transition-transform duration-300 relative z-10 object-cover object-[center_25%]"
                 />
                 {/* Fixed animated ring to match image size */}
                 <div className="absolute inset-0 w-72 h-72 rounded-full border-4 border-blue-400 animate-ping opacity-20"></div>

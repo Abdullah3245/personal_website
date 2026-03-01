@@ -1,4 +1,3 @@
-import { ExternalLink } from "lucide-react"
 
 const projects = [
   {
