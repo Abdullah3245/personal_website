@@ -1,11 +1,118 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Menu, X } from "lucide-react"
 
 interface HeaderProps {
   activeSection: string
   setActiveSection: (section: string) => void
+}
+
+function AGLogo() {
+  const [hovered, setHovered] = useState(false)
+  const [showFull, setShowFull] = useState(false)
+  const [animating, setAnimating] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // On mount: animate from AG → Abdullah Goher after a short pause
+  useEffect(() => {
+    const intro = setTimeout(() => {
+      setAnimating(true)
+      setShowFull(true)
+    }, 600)
+    return () => clearTimeout(intro)
+  }, [])
+
+  const handleMouseEnter = () => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    setHovered(true)
+    setAnimating(true)
+    setShowFull(false)
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+    timerRef.current = setTimeout(() => {
+      setAnimating(true)
+      setShowFull(true)
+    }, 150)
+  }
+
+  // "Abdullah Goher" characters split so we can animate them
+  const firstName = "Abdullah"
+  const lastName = "Goher"
+
+  return (
+    <a
+      href="#home"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      aria-label="Abdullah Goher – home"
+      className="relative flex items-center gap-0 select-none cursor-pointer"
+      style={{ textDecoration: "none" }}
+    >
+      {/* The "A" – always visible */}
+      <span
+        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        A
+      </span>
+
+      {/* "bdullah" – expands in on hover-leave, collapses on hover */}
+      <span
+        className="overflow-hidden inline-flex transition-all duration-500 ease-in-out font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        style={{
+          maxWidth: showFull ? "7rem" : "0px",
+          opacity: showFull ? 1 : 0,
+          letterSpacing: "-0.02em",
+          transitionProperty: "max-width, opacity",
+          transitionDuration: "450ms",
+          transitionTimingFunction: "cubic-bezier(0.4,0,0.2,1)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {firstName.slice(1)}
+      </span>
+
+      {/* Spacer between names */}
+      <span
+        className="overflow-hidden inline-flex transition-all duration-300 ease-in-out font-bold text-2xl"
+        style={{
+          maxWidth: showFull ? "0.5rem" : "0px",
+          opacity: showFull ? 1 : 0,
+          transitionProperty: "max-width, opacity",
+          transitionDuration: "300ms",
+        }}
+      >
+        &nbsp;
+      </span>
+
+      {/* The "G" – always visible */}
+      <span
+        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        style={{ letterSpacing: "-0.02em" }}
+      >
+        G
+      </span>
+
+      {/* "oher" – expands in on hover-leave */}
+      <span
+        className="overflow-hidden inline-flex transition-all duration-500 ease-in-out font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        style={{
+          maxWidth: showFull ? "5rem" : "0px",
+          opacity: showFull ? 1 : 0,
+          letterSpacing: "-0.02em",
+          transitionProperty: "max-width, opacity",
+          transitionDuration: "500ms",
+          transitionTimingFunction: "cubic-bezier(0.4,0,0.2,1)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {lastName.slice(1)}
+      </span>
+    </a>
+  )
 }
 
 export default function Header({ activeSection, setActiveSection }: HeaderProps) {
@@ -95,12 +202,7 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <a
-            href="public/resume.pdf" target='_blank' rel='noopener noreferrer'
-            className="cursor-pointer text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-          >
-            Resume
-          </a>
+          <AGLogo />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-4">
