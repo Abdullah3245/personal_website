@@ -9,38 +9,56 @@ interface HeaderProps {
 }
 
 function AGLogo() {
-  const [hovered, setHovered] = useState(false)
-  const [showFull, setShowFull] = useState(false)
-  const [animating, setAnimating] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const firstRef = useRef<HTMLSpanElement>(null)
+  const lastRef = useRef<HTMLSpanElement>(null)
+  const [firstW, setFirstW] = useState(0)
+  const [lastW, setLastW] = useState(0)
 
-  // On mount: animate from AG → Abdullah Goher after a short pause
+  // Measure the hidden text widths once on mount
   useEffect(() => {
-    const intro = setTimeout(() => {
-      setAnimating(true)
-      setShowFull(true)
-    }, 600)
-    return () => clearTimeout(intro)
+    if (firstRef.current) setFirstW(firstRef.current.scrollWidth)
+    if (lastRef.current) setLastW(lastRef.current.scrollWidth)
+  }, [])
+
+  // Auto-expand after 600ms on mount
+  useEffect(() => {
+    timerRef.current = setTimeout(() => setExpanded(true), 600)
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
   }, [])
 
   const handleMouseEnter = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
-    setHovered(true)
-    setAnimating(true)
-    setShowFull(false)
+    setExpanded(false)
   }
 
   const handleMouseLeave = () => {
-    setHovered(false)
-    timerRef.current = setTimeout(() => {
-      setAnimating(true)
-      setShowFull(true)
-    }, 150)
+    timerRef.current = setTimeout(() => setExpanded(true), 120)
   }
 
-  // "Abdullah Goher" characters split so we can animate them
-  const firstName = "Abdullah"
-  const lastName = "Goher"
+  const sharedTextStyle: React.CSSProperties = {
+    fontWeight: 700,
+    fontSize: "1.5rem",
+    lineHeight: 1,
+    letterSpacing: "-0.02em",
+    background: "linear-gradient(to right, #2563eb, #9333ea)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    whiteSpace: "nowrap",
+  }
+
+  const collapseStyle = (w: number): React.CSSProperties => ({
+    display: "inline-block",
+    overflow: "hidden",
+    width: expanded ? `${w}px` : "0px",
+    opacity: expanded ? 1 : 0,
+    transition: "width 420ms cubic-bezier(0.4,0,0.2,1), opacity 350ms cubic-bezier(0.4,0,0.2,1)",
+    verticalAlign: "bottom",
+  })
 
   return (
     <a
@@ -48,68 +66,28 @@ function AGLogo() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       aria-label="Abdullah Goher – home"
-      className="relative flex items-center gap-0 select-none cursor-pointer"
+      className="select-none cursor-pointer inline-flex items-baseline"
       style={{ textDecoration: "none" }}
     >
-      {/* The "A" – always visible */}
-      <span
-        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-        style={{ letterSpacing: "-0.02em" }}
-      >
-        A
+      {/* A – always visible */}
+      <span style={sharedTextStyle}>A</span>
+
+      {/* bdullah – animates width */}
+      <span style={collapseStyle(firstW)}>
+        <span ref={firstRef} style={sharedTextStyle}>bdullah</span>
       </span>
 
-      {/* "bdullah" – expands in on hover-leave, collapses on hover */}
-      <span
-        className="overflow-hidden inline-flex transition-all duration-500 ease-in-out font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-        style={{
-          maxWidth: showFull ? "7rem" : "0px",
-          opacity: showFull ? 1 : 0,
-          letterSpacing: "-0.02em",
-          transitionProperty: "max-width, opacity",
-          transitionDuration: "450ms",
-          transitionTimingFunction: "cubic-bezier(0.4,0,0.2,1)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {firstName.slice(1)}
+      {/* space between first and last name */}
+      <span style={collapseStyle(expanded ? 8 : 0)}>
+        <span style={{ display: "inline-block", width: "8px" }} />
       </span>
 
-      {/* Spacer between names */}
-      <span
-        className="overflow-hidden inline-flex transition-all duration-300 ease-in-out font-bold text-2xl"
-        style={{
-          maxWidth: showFull ? "0.5rem" : "0px",
-          opacity: showFull ? 1 : 0,
-          transitionProperty: "max-width, opacity",
-          transitionDuration: "300ms",
-        }}
-      >
-        &nbsp;
-      </span>
+      {/* G – always visible */}
+      <span style={sharedTextStyle}>G</span>
 
-      {/* The "G" – always visible */}
-      <span
-        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-        style={{ letterSpacing: "-0.02em" }}
-      >
-        G
-      </span>
-
-      {/* "oher" – expands in on hover-leave */}
-      <span
-        className="overflow-hidden inline-flex transition-all duration-500 ease-in-out font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-        style={{
-          maxWidth: showFull ? "5rem" : "0px",
-          opacity: showFull ? 1 : 0,
-          letterSpacing: "-0.02em",
-          transitionProperty: "max-width, opacity",
-          transitionDuration: "500ms",
-          transitionTimingFunction: "cubic-bezier(0.4,0,0.2,1)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {lastName.slice(1)}
+      {/* oher – animates width */}
+      <span style={collapseStyle(lastW)}>
+        <span ref={lastRef} style={sharedTextStyle}>oher</span>
       </span>
     </a>
   )
