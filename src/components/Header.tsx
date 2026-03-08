@@ -1,80 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 
 interface HeaderProps {
   activeSection: string
   setActiveSection: (section: string) => void
-}
-
-function AGLogo() {
-  const [expanded, setExpanded] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // Mark as mounted, then auto-expand after delay
-  useEffect(() => {
-    setMounted(true)
-    timerRef.current = setTimeout(() => setExpanded(true), 800)
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [])
-
-  const handleMouseEnter = () => {
-    if (timerRef.current) clearTimeout(timerRef.current)
-    setExpanded(false)
-  }
-
-  const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => setExpanded(true), 200)
-  }
-
-  return (
-    <a
-      href="#home"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      aria-label="Abdullah Goher – home"
-      className="select-none cursor-pointer flex items-center"
-      style={{ textDecoration: "none" }}
-    >
-      <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        A
-      </span>
-      <span
-        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent overflow-hidden whitespace-nowrap"
-        style={{
-          width: mounted && expanded ? "70px" : "0px",
-          opacity: mounted && expanded ? 1 : 0,
-          transition: "width 400ms ease-out, opacity 300ms ease-out",
-        }}
-      >
-        bdullah
-      </span>
-      <span
-        className="overflow-hidden"
-        style={{
-          width: mounted && expanded ? "8px" : "0px",
-          transition: "width 400ms ease-out",
-        }}
-      />
-      <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        G
-      </span>
-      <span
-        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent overflow-hidden whitespace-nowrap"
-        style={{
-          width: mounted && expanded ? "52px" : "0px",
-          opacity: mounted && expanded ? 1 : 0,
-          transition: "width 400ms ease-out, opacity 300ms ease-out",
-        }}
-      >
-        oher
-      </span>
-    </a>
-  )
 }
 
 export default function Header({ activeSection, setActiveSection }: HeaderProps) {
@@ -164,7 +95,12 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <AGLogo />
+          <a
+            href="public/resume.pdf" target='_blank' rel='noopener noreferrer'
+            className="cursor-pointer text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+          >
+            Resume
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-4">
