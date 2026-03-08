@@ -10,21 +10,13 @@ interface HeaderProps {
 
 function AGLogo() {
   const [expanded, setExpanded] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const firstRef = useRef<HTMLSpanElement>(null)
-  const lastRef = useRef<HTMLSpanElement>(null)
-  const [firstW, setFirstW] = useState(0)
-  const [lastW, setLastW] = useState(0)
 
-  // Measure the hidden text widths once on mount
+  // Mark as mounted, then auto-expand after delay
   useEffect(() => {
-    if (firstRef.current) setFirstW(firstRef.current.scrollWidth)
-    if (lastRef.current) setLastW(lastRef.current.scrollWidth)
-  }, [])
-
-  // Auto-expand after 600ms on mount
-  useEffect(() => {
-    timerRef.current = setTimeout(() => setExpanded(true), 600)
+    setMounted(true)
+    timerRef.current = setTimeout(() => setExpanded(true), 800)
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current)
     }
@@ -36,29 +28,8 @@ function AGLogo() {
   }
 
   const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => setExpanded(true), 120)
+    timerRef.current = setTimeout(() => setExpanded(true), 200)
   }
-
-  const sharedTextStyle: React.CSSProperties = {
-    fontWeight: 700,
-    fontSize: "1.5rem",
-    lineHeight: 1,
-    letterSpacing: "-0.02em",
-    background: "linear-gradient(to right, #2563eb, #9333ea)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
-    whiteSpace: "nowrap",
-  }
-
-  const collapseStyle = (w: number): React.CSSProperties => ({
-    display: "inline-block",
-    overflow: "hidden",
-    width: expanded ? `${w}px` : "0px",
-    opacity: expanded ? 1 : 0,
-    transition: "width 420ms cubic-bezier(0.4,0,0.2,1), opacity 350ms cubic-bezier(0.4,0,0.2,1)",
-    verticalAlign: "bottom",
-  })
 
   return (
     <a
@@ -66,28 +37,41 @@ function AGLogo() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       aria-label="Abdullah Goher – home"
-      className="select-none cursor-pointer inline-flex items-baseline"
+      className="select-none cursor-pointer flex items-center"
       style={{ textDecoration: "none" }}
     >
-      {/* A – always visible */}
-      <span style={sharedTextStyle}>A</span>
-
-      {/* bdullah – animates width */}
-      <span style={collapseStyle(firstW)}>
-        <span ref={firstRef} style={sharedTextStyle}>bdullah</span>
+      <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        A
       </span>
-
-      {/* space between first and last name */}
-      <span style={collapseStyle(expanded ? 8 : 0)}>
-        <span style={{ display: "inline-block", width: "8px" }} />
+      <span
+        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent overflow-hidden whitespace-nowrap"
+        style={{
+          width: mounted && expanded ? "70px" : "0px",
+          opacity: mounted && expanded ? 1 : 0,
+          transition: "width 400ms ease-out, opacity 300ms ease-out",
+        }}
+      >
+        bdullah
       </span>
-
-      {/* G – always visible */}
-      <span style={sharedTextStyle}>G</span>
-
-      {/* oher – animates width */}
-      <span style={collapseStyle(lastW)}>
-        <span ref={lastRef} style={sharedTextStyle}>oher</span>
+      <span
+        className="overflow-hidden"
+        style={{
+          width: mounted && expanded ? "8px" : "0px",
+          transition: "width 400ms ease-out",
+        }}
+      />
+      <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        G
+      </span>
+      <span
+        className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent overflow-hidden whitespace-nowrap"
+        style={{
+          width: mounted && expanded ? "52px" : "0px",
+          opacity: mounted && expanded ? 1 : 0,
+          transition: "width 400ms ease-out, opacity 300ms ease-out",
+        }}
+      >
+        oher
       </span>
     </a>
   )
