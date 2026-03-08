@@ -1,10 +1,74 @@
 "use client"
 
 import { Github, Linkedin, Mail } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 import ParticleBackground from "./ParticleBackground"
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
+
+function AnimatedName() {
+  const [expanded, setExpanded] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+    timerRef.current = setTimeout(() => setExpanded(true), 1200)
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
+
+  const handleMouseEnter = () => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    setExpanded(false)
+  }
+
+  const handleMouseLeave = () => {
+    timerRef.current = setTimeout(() => setExpanded(true), 200)
+  }
+
+  const gradientStyle: React.CSSProperties = {
+    background: "linear-gradient(to right, #2563eb, #9333ea)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  }
+
+  const expandingSpanStyle = (targetWidth: string): React.CSSProperties => ({
+    display: "inline-block",
+    overflow: "hidden",
+    width: mounted && expanded ? targetWidth : "0px",
+    opacity: mounted && expanded ? 1 : 0,
+    transition: "width 500ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms ease-out",
+    verticalAlign: "baseline",
+    whiteSpace: "nowrap",
+  })
+
+  return (
+    <span
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="cursor-pointer inline-flex items-baseline"
+      style={gradientStyle}
+    >
+      <span>A</span>
+      <span style={expandingSpanStyle("0.58em")}>b</span>
+      <span style={expandingSpanStyle("0.55em")}>d</span>
+      <span style={expandingSpanStyle("0.55em")}>u</span>
+      <span style={expandingSpanStyle("0.27em")}>l</span>
+      <span style={expandingSpanStyle("0.27em")}>l</span>
+      <span style={expandingSpanStyle("0.55em")}>a</span>
+      <span style={expandingSpanStyle("0.55em")}>h</span>
+      <span style={expandingSpanStyle("0.35em")}>&nbsp;</span>
+      <span>G</span>
+      <span style={expandingSpanStyle("0.55em")}>o</span>
+      <span style={expandingSpanStyle("0.55em")}>h</span>
+      <span style={expandingSpanStyle("0.55em")}>e</span>
+      <span style={expandingSpanStyle("0.35em")}>r</span>
+    </span>
+  )
+}
 
 export default function Hero() {
   const { ref, isVisible } = useScrollAnimation()
@@ -66,9 +130,7 @@ export default function Hero() {
           >
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Hi, I'm{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 animate-gradient">
-                Abdullah Goher
-              </span>
+              <AnimatedName />
             </h1>
           </div>
 
