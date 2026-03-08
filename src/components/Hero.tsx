@@ -6,66 +6,116 @@ import { useState, useEffect, useRef } from "react"
 import ParticleBackground from "./ParticleBackground"
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
 
-function AnimatedName() {
-  const [expanded, setExpanded] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*"
+const FULL_NAME = "Abdullah Goher"
+const SHORT_NAME = "AG"
 
+function AnimatedName() {
+  const [displayText, setDisplayText] = useState(SHORT_NAME)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const scrambleTo = (target: string, onComplete?: () => void) => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    setIsAnimating(true)
+
+    const targetLength = target.length
+    const startLength = displayText.length
+    let iteration = 0
+    const maxIterations = targetLength * 3
+
+    intervalRef.current = setInterval(() => {
+      // Calculate current length (grow or shrink)
+      const progress = Math.min(iteration / maxIterations, 1)
+      const currentLength = Math.round(startLength + (targetLength - startLength) * progress)
+
+      // Build the display string with scramble effect
+      let result = ""
+      for (let i = 0; i < currentLength; i++) {
+        // Characters that have "settled"
+        const settleThreshold = (iteration - i * 2) / 6
+        if (settleThreshold > 1 && i < target.length) {
+          result += target[i]
+        } else if (i < target.length) {
+          // Still scrambling
+          result += CHARS[Math.floor(Math.random() * CHARS.length)]
+        }
+      }
+
+      setDisplayText(result || target[0])
+      iteration++
+
+      if (iteration > maxIterations + 10) {
+        if (intervalRef.current) clearInterval(intervalRef.current)
+        setDisplayText(target)
+        setIsAnimating(false)
+        onComplete?.()
+      }
+    }, 35)
+  }
+
+  // Auto-expand on mount
   useEffect(() => {
-    setMounted(true)
-    timerRef.current = setTimeout(() => setExpanded(true), 1200)
+    timerRef.current = setTimeout(() => {
+      scrambleTo(FULL_NAME, () => setIsExpanded(true))
+    }, 1000)
+
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current)
+      if (intervalRef.current) clearInterval(intervalRef.current)
     }
   }, [])
 
   const handleMouseEnter = () => {
     if (timerRef.current) clearTimeout(timerRef.current)
-    setExpanded(false)
+    if (!isAnimating && isExpanded) {
+      scrambleTo(SHORT_NAME, () => setIsExpanded(false))
+    }
   }
 
   const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => setExpanded(true), 200)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      if (!isAnimating && !isExpanded) {
+        scrambleTo(FULL_NAME, () => setIsExpanded(true))
+      }
+    }, 300)
   }
-
-  const gradientStyle: React.CSSProperties = {
-    background: "linear-gradient(to right, #2563eb, #9333ea)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
-  }
-
-  const expandingSpanStyle = (targetWidth: string): React.CSSProperties => ({
-    display: "inline-block",
-    overflow: "hidden",
-    width: mounted && expanded ? targetWidth : "0px",
-    opacity: mounted && expanded ? 1 : 0,
-    transition: "width 500ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms ease-out",
-    verticalAlign: "baseline",
-    whiteSpace: "nowrap",
-  })
 
   return (
     <span
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="cursor-pointer inline-flex items-baseline"
-      style={gradientStyle}
+      className="cursor-pointer inline-block relative"
+      style={{
+        background: "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #9333ea 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        backgroundSize: "200% 200%",
+        animation: isAnimating ? "gradient-shift 0.5s ease infinite" : "none",
+      }}
     >
-      <span>A</span>
-      <span style={expandingSpanStyle("0.58em")}>b</span>
-      <span style={expandingSpanStyle("0.55em")}>d</span>
-      <span style={expandingSpanStyle("0.55em")}>u</span>
-      <span style={expandingSpanStyle("0.27em")}>l</span>
-      <span style={expandingSpanStyle("0.27em")}>l</span>
-      <span style={expandingSpanStyle("0.55em")}>a</span>
-      <span style={expandingSpanStyle("0.55em")}>h</span>
-      <span style={expandingSpanStyle("0.35em")}>&nbsp;</span>
-      <span>G</span>
-      <span style={expandingSpanStyle("0.55em")}>o</span>
-      <span style={expandingSpanStyle("0.55em")}>h</span>
-      <span style={expandingSpanStyle("0.55em")}>e</span>
-      <span style={expandingSpanStyle("0.35em")}>r</span>
+      <style>{`
+        @keyframes gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
+      {displayText.split("").map((char, i) => (
+        <span
+          key={i}
+          className="inline-block transition-transform duration-100"
+          style={{
+            transform: isAnimating ? `translateY(${Math.sin(i * 0.5 + Date.now() * 0.01) * 2}px)` : "none",
+            opacity: isAnimating ? 0.7 + Math.random() * 0.3 : 1,
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
     </span>
   )
 }
