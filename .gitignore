@@ -10,6 +10,14 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dist-verify
+dist-verify2
+dist-verify3
+dist-verify4
+dist-verify5
+dist-verify6
+dist-verify7
+dist-verify8
 *.local
 
 # Lock files

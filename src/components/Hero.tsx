@@ -1,219 +1,227 @@
 "use client"
 
 import { Github, Linkedin, Mail } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import ThreeNameParticles from "./ThreeNameParticles"
 
-import ParticleBackground from "./ParticleBackground"
-import { useScrollAnimation } from "../hooks/useScrollAnimation"
-
-function AnimatedName() {
-  const [expanded, setExpanded] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    setMounted(true)
-    timerRef.current = setTimeout(() => setExpanded(true), 1200)
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [])
-
-  const handleMouseEnter = () => {
-    if (timerRef.current) clearTimeout(timerRef.current)
-    setExpanded(false)
-  }
-
-  const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => setExpanded(true), 200)
-  }
-
-  const gradientStyle: React.CSSProperties = {
-    background: "linear-gradient(to right, #2563eb, #9333ea)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
-  }
-
-  const expandingSpanStyle = (targetWidth: string): React.CSSProperties => ({
-    display: "inline-block",
-    overflow: "hidden",
-    width: mounted && expanded ? targetWidth : "0px",
-    opacity: mounted && expanded ? 1 : 0,
-    transition: "width 500ms cubic-bezier(0.4, 0, 0.2, 1), opacity 400ms ease-out",
-    verticalAlign: "baseline",
-    whiteSpace: "nowrap",
-  })
-
-  return (
-    <span
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="cursor-pointer inline-flex items-baseline"
-      style={gradientStyle}
-    >
-      <span>A</span>
-      <span style={expandingSpanStyle("0.58em")}>b</span>
-      <span style={expandingSpanStyle("0.55em")}>d</span>
-      <span style={expandingSpanStyle("0.55em")}>u</span>
-      <span style={expandingSpanStyle("0.27em")}>l</span>
-      <span style={expandingSpanStyle("0.27em")}>l</span>
-      <span style={expandingSpanStyle("0.55em")}>a</span>
-      <span style={expandingSpanStyle("0.55em")}>h</span>
-      <span style={expandingSpanStyle("0.35em")}>&nbsp;</span>
-      <span>G</span>
-      <span style={expandingSpanStyle("0.55em")}>o</span>
-      <span style={expandingSpanStyle("0.55em")}>h</span>
-      <span style={expandingSpanStyle("0.55em")}>e</span>
-      <span style={expandingSpanStyle("0.35em")}>r</span>
-    </span>
-  )
-}
-
+/**
+ * Intro card. Sits over the fixed Spline scene, content anchored bottom-left.
+ * Staggered fade-up reveal.
+ */
 export default function Hero() {
-  const { ref, isVisible } = useScrollAnimation()
-  const [displayedText, setDisplayedText] = useState("")
-  const [isTypingComplete, setIsTypingComplete] = useState(false)
-
-  const fullText = "Junior at University of Pennsylvania"
-
-  useEffect(() => {
-    if (!isVisible) return
-
-    let currentIndex = 0
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, currentIndex))
-        currentIndex++
-      } else {
-        setIsTypingComplete(true)
-        clearInterval(typingInterval)
-      }
-    }, 80) // Adjust speed here (lower = faster)
-
-    return () => clearInterval(typingInterval)
-  }, [isVisible])
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
 
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-16 relative overflow-hidden"
+      className="relative min-h-screen flex items-end overflow-hidden"
+      style={{ background: "transparent" }}
     >
-      <ParticleBackground />
+      {/* Subtle dark overlay so the headline reads on top of the Spline scene */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, hsl(var(--hero-bg) / 0.0) 0%, hsl(var(--hero-bg) / 0.0) 55%, hsl(var(--hero-bg) / 0.55) 100%)",
+          zIndex: 1,
+        }}
+      />
 
-      {/* Animated background shapes */}
-      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 2 }}>
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div className="max-w-3xl mx-auto">
+      <div className="relative z-10 pointer-events-none w-full max-w-[90%] sm:max-w-md lg:max-w-3xl px-6 md:px-12 pb-12 md:pb-16 pt-32">
+        {/* Profile photo */}
+        <div
+          className="opacity-0 animate-fade-up mb-5 md:mb-6"
+          style={{ animationDelay: "0.0s" }}
+        >
           <div
-            className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            className="relative inline-block"
+            style={{
+              width: "clamp(88px, 8.5vw, 120px)",
+              height: "clamp(88px, 8.5vw, 120px)",
+            }}
           >
-            <div className="relative mt-10 mb-8 flex justify-center">
-              <div className="relative">
-                <img
-                  src="/files/Abdullah_new.jpg"
-                  alt="Profile"
-                  className="w-80 h-80 rounded-full border-4 border-white shadow-2xl hover:scale-110 transition-transform duration-300 relative z-10 object-cover object-[center_25%]"
-                />
-                {/* Fixed animated ring to match image size */}
-                <div className="absolute inset-0 w-72 h-72 rounded-full border-4 border-blue-400 animate-ping opacity-20"></div>
-              </div>
-            </div>
+            <img
+              src="/files/Abdullah_new.jpg"
+              alt="Abdullah Goher"
+              className="w-full h-full object-cover object-[center_25%] pointer-events-auto"
+              style={{
+                borderRadius: "50%",
+                border: "2px solid hsl(var(--primary))",
+                boxShadow:
+                  "0 0 24px hsl(var(--primary) / 0.4), 0 4px 18px rgba(0,0,0,0.45)",
+              }}
+            />
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-1 -right-1 inline-flex items-center justify-center"
+              style={{
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                background: "hsl(var(--primary))",
+                boxShadow: "0 0 0 3px var(--c-hero-bg), 0 0 10px hsl(var(--primary))",
+              }}
+            />
           </div>
+        </div>
 
-          <div
-            className={`transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Hi, I'm{" "}
-              <AnimatedName />
-            </h1>
-          </div>
+        {/* Eyebrow */}
+        <p
+          className="micro-label-accent opacity-0 animate-fade-up mb-4"
+          style={{ animationDelay: "0.1s" }}
+        >
+          Junior · CIS · Penn '27
+        </p>
 
-          <div
-            className={`transition-all mb-6 duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <div className="flex items-center justify-center gap-3">
-              <img
-                src="/files/penn_logo.png"
-                alt="University of Pennsylvania Logo"
-                className="w-24 h-24 md:w-24 md:h-24 object-contain"
-              />
-              <p className="text-xl md:text-2xl font-bold text-gray-800 min-h-[2rem]">
-                <span className="inline-block">
-                  {displayedText}
-                  {!isTypingComplete && <span className="animate-pulse text-blue-600 ml-1">|</span>}
-                </span>
-              </p>
-            </div>
-          </div>
+        {/* Heading — particle text. Two lines: ABDULLAH (white) + GOHER (green). */}
+        <h1
+          className="opacity-0 animate-fade-up font-bold uppercase mb-3 md:mb-5 pointer-events-auto"
+          style={{
+            animationDelay: "0.2s",
+            color: "var(--c-fg)",
+            fontSize: "clamp(2.6rem, 8vw, 6rem)",
+            lineHeight: 1.04,
+            letterSpacing: "-0.05em",
+          }}
+        >
+          <ThreeNameParticles text="ABDULLAH" color="hsl(0, 0%, 96%)" />
+          <br />
+          <ThreeNameParticles text="GOHER" color="hsl(119, 99%, 46%)" />
+        </h1>
 
-          <div
-            className={`transition-all duration-1000 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <div className="mb-12 max-w-4xl mx-auto">
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-                <p className="text-2xl md:text-3xl font-light text-gray-800 mb-2 leading-relaxed">
-                  B.S.E. & M.S.E. in <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Computer & Information Science</span>
-                </p>
-                <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
-                  Passionate about <span className="font-medium text-blue-600">Software Development</span>,
-                  <span className="font-medium text-blue-600"> Machine Learning</span>,
-                  <span className="font-medium text-blue-600"> Data Science</span>
-                  , and 
-                  <span className="font-medium text-blue-600"> impact through technology</span>
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Subheading */}
+        <p
+          className="opacity-0 animate-fade-up font-light mb-3 md:mb-6"
+          style={{
+            animationDelay: "0.4s",
+            color: "hsl(var(--foreground) / 0.85)",
+            fontSize: "clamp(1.05rem, 2.4vw, 1.75rem)",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          I build secure, intelligent systems.
+        </p>
 
-          <div
-            className={`transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-          >
-            <div className="flex justify-center space-x-6 mb-8">
-              {[
-                { icon: Github, href: "https://github.com/Abdullah3245", delay: "0ms" },
-                { icon: Linkedin, href: "https://www.linkedin.com/in/abdullah-goher-801ba227b/", delay: "100ms" },
-              ].map(({ icon: Icon, href, delay }, index) => (
-                <a
-                  key={index}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300 group"
-                  style={{ animationDelay: delay }}
-                >
-                  <Icon size={24} className="text-gray-700 group-hover:text-blue-600 transition-colors" />
-                </a>
-              ))}
-              <div onClick={() =>
-                window.open("https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu", "_blank")
-              } className="p-3 bg-white/80 backdrop-blur-sm rounded-full group-hover:text-blue-600 cursor-pointer hover:scale-110 shadow-lg hover:shadow-2xl transition-all duration-300 group">
-                <Mail size={24} className="text-gray-700 group-hover:text-blue-600 transition-colors" />
-              </div>
-            </div>
-          </div>
+        {/* Credential — kept prominent on its own line */}
+        <p
+          className="opacity-0 animate-fade-up font-medium mb-2 md:mb-3 max-w-2xl"
+          style={{
+            animationDelay: "0.55s",
+            color: "var(--c-fg)",
+            fontSize: "clamp(0.95rem, 1.5vw, 1.2rem)",
+            lineHeight: 1.5,
+          }}
+        >
+          B.S.E. &amp; M.S.E. in Computer &amp; Information Science at the
+          University of Pennsylvania.
+        </p>
 
-          <div
-            className={`transition-all duration-1000 delay-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+        {/* Description */}
+        <p
+          className="opacity-0 animate-fade-up font-light mb-6 md:mb-8 max-w-2xl"
+          style={{
+            animationDelay: "0.65s",
+            color: "hsl(var(--muted-foreground))",
+            fontSize: "clamp(0.92rem, 1.4vw, 1.15rem)",
+            lineHeight: 1.6,
+          }}
+        >
+          I ship full-stack applications, train ML models for real-world
+          problems, and turn multi-terabyte datasets into clear decisions.
+        </p>
+
+        {/* CTAs */}
+        <div
+          className="opacity-0 animate-fade-up flex flex-wrap gap-3 mb-6 md:mb-8"
+          style={{ animationDelay: "0.7s" }}
+        >
+          <button
+            type="button"
+            onClick={() => scrollTo("projects")}
+            className="btn-primary pointer-events-auto text-sm"
           >
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="cursor-pointer px-8 py-3 mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                View My Work
-              </button>
-              <a href="/files/Abdullah_resume.docx" download="Abdullah_resume" target="_blank" rel="noreferrer">
-                {/* <button className="cursor-pointer px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transform hover:scale-105 transition-all duration-300">
-                  Download CV
-                </button> */}
-              </a>
-            </div>
+            View My Work
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollTo("contact")}
+            className="btn-secondary pointer-events-auto text-sm"
+          >
+            Get In Touch
+          </button>
+        </div>
+
+        {/* Trust line + social */}
+        <div
+          className="opacity-0 animate-fade-up flex flex-wrap items-center gap-4 md:gap-6"
+          style={{ animationDelay: "0.85s" }}
+        >
+          <p
+            className="font-light"
+            style={{
+              color: "hsl(var(--muted-foreground) / 0.7)",
+              fontSize: "0.78rem",
+              letterSpacing: "0.04em",
+            }}
+          >
+            Philadelphia, PA · 4 internships shipped · ML / SWE / Data
+          </p>
+
+          <span
+            className="hidden md:inline-block w-px h-4"
+            style={{ background: "hsl(var(--border))" }}
+          />
+
+          <div className="flex items-center gap-3 pointer-events-auto">
+            <a
+              href="https://github.com/Abdullah3245"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--c-primary)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "hsl(var(--muted-foreground))")
+              }
+              aria-label="GitHub"
+            >
+              <Github size={18} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/abdullah-goher-801ba227b/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--c-primary)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "hsl(var(--muted-foreground))")
+              }
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={18} />
+            </a>
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--c-primary)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "hsl(var(--muted-foreground))")
+              }
+              aria-label="Email"
+            >
+              <Mail size={18} />
+            </a>
           </div>
         </div>
       </div>

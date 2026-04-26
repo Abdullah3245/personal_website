@@ -6,25 +6,32 @@ import Projects from "./components/Projects"
 import Contact from "./components/Contact"
 import Footer from "./components/Footer"
 import Experience from "./components/Experience"
-
+import SplineBackground from "./components/SplineBackground"
 
 function App() {
   const [activeSection, setActiveSection] = useState("home")
 
   return (
-    <div className="min-h-screen bg-white">
+    <div
+      className="min-h-screen relative"
+      style={{ background: "var(--c-hero-bg)" }}
+    >
+      {/* Fixed Spline 3D scene behind everything */}
+      <SplineBackground />
+
       <Header
         activeSection={activeSection}
         setActiveSection={setActiveSection}
       />
-      <main>
+
+      <main className="relative">
         <Hero />
-        {/* <About /> */}
         <Experience />
         <Projects />
         <Skills />
         <Contact />
       </main>
+
       <Footer />
     </div>
   )

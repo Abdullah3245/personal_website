@@ -3,14 +3,61 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================================
+   DESIGN TOKENS — dark Spline scroll-journey theme
+   ========================================================================= */
+:root {
+  /* HSL components — used as `hsl(var(--token))` in Tailwind arbitrary values */
+  --background: 0 0% 10%;
+  --foreground: 0 0% 96%;
+  --primary: 119 99% 46%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 96%;
+  --muted: 0 0% 16%;
+  --muted-foreground: 0 0% 60%;
+  --accent: 119 99% 46%;
+  --accent-foreground: 0 0% 4%;
+  --destructive: 0 84% 60%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 119 99% 46%;
+  --radius: 0.5rem;
+  --nav-button: 0 0% 18%;
+  --hero-bg: 0 0% 8%;
+
+  /* Convenience direct colors */
+  --c-bg: hsl(var(--background));
+  --c-fg: hsl(var(--foreground));
+  --c-primary: hsl(var(--primary));
+  --c-muted: hsl(var(--muted));
+  --c-muted-fg: hsl(var(--muted-foreground));
+  --c-border: hsl(var(--border));
+  --c-hero-bg: hsl(var(--hero-bg));
+
+  /* Typography */
+  --font-sora: "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* scroll progress (0..1) — driven by useScrollProgress, used by widgets */
+  --scroll-progress: 0;
+}
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: var(--c-hero-bg);
+    color: var(--c-fg);
   }
-
   body {
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sora);
+    background: var(--c-hero-bg);
+    color: var(--c-fg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--c-primary);
+    color: hsl(var(--primary-foreground));
   }
 }
 
@@ -18,49 +65,125 @@
   .section-padding {
     @apply py-20 px-4 lg:px-8;
   }
+
+  /* Translucent journey card — dark with hairline border. We deliberately
+     skip backdrop-filter blur here: blur over a moving 3D Spline scene is
+     the single most expensive thing the GPU does and tanks scroll perf.
+     A more opaque background gives the same legibility at a fraction of
+     the cost. */
+  .journey-card {
+    background: hsl(var(--background) / 0.86);
+    border: 1px solid hsl(var(--border) / 0.7);
+    border-radius: var(--radius);
+  }
+
+  /* Solid panel variant — for dense data sections */
+  .journey-panel {
+    background: hsl(var(--background) / 0.92);
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+  }
+
+  /* Tiny technical mono label */
+  .micro-label {
+    font-family: var(--font-sora);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    font-weight: 500;
+  }
+  .micro-label-accent {
+    font-family: var(--font-sora);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 500;
+  }
+
+  /* CTA buttons — dark theme */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: var(--c-primary);
+    color: hsl(var(--primary-foreground));
+    font-weight: 600;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    transition: filter 0.18s ease, transform 0.12s ease;
+  }
+  .btn-primary:hover { filter: brightness(1.1); }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: white;
+    color: var(--c-bg);
+    font-weight: 600;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    transition: filter 0.18s ease, transform 0.12s ease;
+  }
+  .btn-secondary:hover { filter: brightness(0.9); }
+  .btn-secondary:active { transform: scale(0.97); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.2rem;
+    background: hsl(var(--nav-button));
+    color: var(--c-fg);
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.12s ease;
+  }
+  .btn-ghost:hover { background: hsl(var(--nav-button) / 0.7); }
+  .btn-ghost:active { transform: scale(0.97); }
 }
 
 @layer utilities {
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
+  /* engineering grid background — used as a section motif */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.35) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.35) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  /* fade-up keyframe per spec */
+  .animate-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
   }
 
-  .animate-float-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: 3s;
+  @keyframes fade-up {
+    0%   { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
-
-  .animate-typewriter {
-    overflow: hidden;
-    border-right: 2px solid #3b82f6;
-    white-space: nowrap;
-    animation: typewriter 3s steps(40) 1s forwards, blink 1s infinite;
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
+/* Custom scrollbar to match dark theme */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--c-hero-bg); }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
-  border-radius: 4px;
+  background: hsl(var(--muted));
+  border: 2px solid var(--c-hero-bg);
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #2563eb, #7c3aed);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--c-primary); }

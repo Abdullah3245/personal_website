@@ -1,58 +1,66 @@
-import { useState } from "react"
-import { ExternalLink, Github, ChevronRight, Zap } from "lucide-react"
+"use client"
 
-const projects = [
+import { useEffect, useRef, useState } from "react"
+import { ExternalLink, Github, Zap, ArrowUpRight } from "lucide-react"
+
+interface Project {
+  title: string
+  description: string
+  image: string
+  technologies: string[]
+  liveUrl: string
+  githubUrl: string
+  category: string
+  status: string
+  highlights: string[]
+}
+
+const PROJECTS: Project[] = [
   {
     title: "Nomad",
     description:
-      "Designed and built Nomad, a full-stack human-mobility research platform to make human mobility datasets, algorithms, and resources more accessible to Computational Social Science researchers.",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-02-12%20at%205.50.44%E2%80%AFPM-zCmAflXehiF8X4bwQJTX4IYmHMZVx6.png",
+      "Full-stack human-mobility research platform making mobility datasets, algorithms, and resources accessible to Computational Social Science researchers.",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-02-12%20at%205.50.44%E2%80%AFPM-zCmAflXehiF8X4bwQJTX4IYmHMZVx6.png",
     technologies: ["React", "Vite", "Express", "MongoDB", "AWS S3", "Cypress", "Vitest", "LLMs"],
     liveUrl: "https://nomad.seas.upenn.edu",
     githubUrl: "#",
     category: "Full Stack",
     status: "Live",
-    accentFrom: "#3b82f6",
-    accentTo: "#8b5cf6",
     highlights: [
-      "Custom MVC architecture with Express and MongoDB RESTful APIs",
-      "AWS S3 cloud storage for mobility literature scalability",
-      "High test coverage with Cypress (frontend) and Vitest (backend)",
-      "Automated LLM pipeline to extract JSON from 100+ scholarly papers",
+      "Custom MVC architecture with Express + MongoDB REST APIs",
+      "AWS S3 cloud storage for mobility literature",
+      "High test coverage with Cypress + Vitest",
+      "Automated LLM pipeline extracts JSON from 100+ scholarly papers",
     ],
   },
   {
     title: "Penn Muslim Alumni Data",
     description:
-      "Full-stack alumni-networking platform with a custom database connecting 200+ community members. Built profile pages with structured fields, search, filter, and job-posting features.",
+      "Full-stack alumni-networking platform with a custom database connecting 200+ community members. Profile pages with structured fields, search, filter, and job-posting features.",
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop",
     technologies: ["TypeScript", "PostgreSQL", "React", "Node.js", "Heroku"],
     liveUrl: "#",
     githubUrl: "#",
     category: "Full Stack",
     status: "Live",
-    accentFrom: "#2563eb",
-    accentTo: "#7c3aed",
     highlights: [
-      "Full-stack platform connecting 200+ alumni",
-      "Custom PostgreSQL database schema",
+      "Connects 200+ alumni with custom PostgreSQL schema",
       "Search, filter, and job-posting features",
     ],
   },
   {
     title: "Steam Dataset EDA",
     description:
-      "Data cleaning, preprocessing, and visualisation of 110k+ games dataset. Built predictive models (Random Forest, XGBoost, LightGBM) to analyze factors influencing game success.",
+      "Data cleaning, preprocessing, and visualisation of a 110k+ games dataset. Predictive models analyzing factors influencing game success.",
     image: "./files/SteamDataSet.png",
     technologies: ["Python", "pandas", "scikit-learn", "SciPy", "matplotlib"],
     liveUrl: "https://colab.research.google.com/drive/1hapeUwkCeNfUn-uXfLU99tli3u7seR_M?usp=sharing",
     githubUrl: "https://github.com/Abdullah3245/Steam_Data_Analysis",
     category: "Data Science",
     status: "Completed",
-    accentFrom: "#10b981",
-    accentTo: "#0d9488",
     highlights: [
-      "Processed 110k+ games with data cleaning and visualization",
+      "Processed 110k+ games with cleaning + visualization",
       "Random Forest, XGBoost, LightGBM predictive models",
       "EDA with Matplotlib, Seaborn, Plotly",
     ],
@@ -67,150 +75,316 @@ const projects = [
     githubUrl: "#",
     category: "Full Stack",
     status: "Completed",
-    accentFrom: "#8b5cf6",
-    accentTo: "#6366f1",
     highlights: [
       "Normalized relational DB with 100k+ rows",
       "Materialized views for optimized queries",
-      "Backend APIs for zip-code EV lookups and nearest charger search",
+      "APIs for zip-code EV lookups + nearest-charger search",
     ],
   },
   {
     title: "AlumniConnectAI",
     description:
-      "Scrape alumni information and connect with them through an intelligent matching system. Chrome extension for seamless LinkedIn integration with Stripe payment processing.",
+      "Scrape alumni information and connect through an intelligent matching system. Chrome extension for seamless LinkedIn integration with Stripe payments.",
     image: "./files/AlumniConnectAI.png",
     technologies: ["Vite + React", "Web Scraping", "Chrome Extension", "Stripe"],
     liveUrl: "https://alumniconnectai.lovable.app/",
     githubUrl: "https://github.com/Abdullah3245/AlumniConnectAI?tab=readme-ov-file",
     category: "Full Stack",
     status: "Live",
-    accentFrom: "#3b82f6",
-    accentTo: "#8b5cf6",
     highlights: [
-      "Chrome extension for seamless LinkedIn integration",
+      "Chrome extension for LinkedIn integration",
       "Stripe payment processing for premium features",
       "AI-powered alumni matching algorithm",
     ],
   },
   {
-    title: "J to RISC-V Compiler",
+    title: "J → RISC-V Compiler",
     description:
-      "Compiler (jc) to translate programs in a stack-oriented language (J) into RISC-V assembly with full interoperability support and standard calling conventions.",
+      "Compiler (jc) translating programs in a stack-oriented language (J) into RISC-V assembly with full Clang interoperability and standard calling conventions.",
     image: "/files/image.png",
     technologies: ["C", "RISC-V Assembly", "Compiler Design", "Token Parsing"],
     liveUrl: "#",
     githubUrl: "#",
     category: "Systems",
     status: "Completed",
-    accentFrom: "#f59e0b",
-    accentTo: "#ef4444",
     highlights: [
       "Token parsing system with modular design",
-      "RISC-V assembly generation for arithmetic/logical ops",
-      "Standard calling conventions for Clang interoperability",
+      "RISC-V assembly generation for arithmetic / logical ops",
+      "Standard calling conventions for Clang interop",
     ],
   },
   {
     title: "Twitter Bot · Markov Chains",
     description:
-      "Machine learning model generating tweets using Markov chain algorithms for statistical word sequence calculation ensuring coherent, contextually relevant content.",
+      "ML model generating tweets via Markov-chain word-sequence calculation, ensuring coherent and contextually relevant content.",
     image: "/files/twitterbot.jpeg",
     technologies: ["Java", "Markov Chains", "JUnit", "Machine Learning"],
     liveUrl: "#",
     githubUrl: "https://github.com/Abdullah3245/TwitterBot",
     category: "ML",
     status: "Completed",
-    accentFrom: "#f97316",
-    accentTo: "#ef4444",
     highlights: [
       "Markov chain algorithm for word-sequence calculation",
-      "90% code coverage with comprehensive JUnit testing",
-      "Coherent tweet generation with fine-tuned model",
+      "90% code coverage with JUnit testing",
     ],
   },
 ]
 
-const categoryColors: Record<string, string> = {
-  "Full Stack": "bg-blue-100 text-blue-700",
-  "Data Science": "bg-emerald-100 text-emerald-700",
-  "Systems": "bg-amber-100 text-amber-700",
-  "ML": "bg-orange-100 text-orange-700",
-}
-
-const statusColors: Record<string, string> = {
-  Live: "bg-green-100 text-green-700",
-  Completed: "bg-gray-100 text-gray-600",
-}
-
-interface Project {
-  title: string
-  description: string
-  image: string
-  technologies: string[]
-  liveUrl: string
-  githubUrl: string
-  category: string
-  status: string
-  accentFrom: string
-  accentTo: string
-  highlights: string[]
-}
-
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
   const [hovered, setHovered] = useState(false)
+  const tiltRaf = useRef<number | null>(null)
+  const tilt = useRef({ rx: 0, ry: 0, mx: 50, my: 50 })
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setVisible(true)
+            io.disconnect()
+            break
+          }
+        }
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  // Apply tilt directly on the inner div (avoids React state thrash on
+  // every mousemove). The outer wrapper still owns the fade-up state.
+  const applyTilt = () => {
+    const inner = innerRef.current
+    if (!inner) return
+    inner.style.transform = `perspective(900px) rotateX(${tilt.current.rx}deg) rotateY(${tilt.current.ry}deg) translateZ(0)`
+    inner.style.setProperty("--mx", `${tilt.current.mx}%`)
+    inner.style.setProperty("--my", `${tilt.current.my}%`)
+  }
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = ref.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width
+    const py = (e.clientY - rect.top) / rect.height
+    // tilt range: ±9°, inverted Y feels right
+    tilt.current.ry = (px - 0.5) * 18
+    tilt.current.rx = -(py - 0.5) * 14
+    tilt.current.mx = px * 100
+    tilt.current.my = py * 100
+    if (tiltRaf.current == null) {
+      tiltRaf.current = requestAnimationFrame(() => {
+        tiltRaf.current = null
+        applyTilt()
+      })
+    }
+  }
+  const onEnter = () => setHovered(true)
+  const onLeave = () => {
+    setHovered(false)
+    tilt.current.rx = 0
+    tilt.current.ry = 0
+    applyTilt()
+  }
+
+  const isLive = project.status === "Live"
 
   return (
     <div
-      className="group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col transition-all duration-500 cursor-pointer"
+      ref={ref}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      onMouseMove={onMove}
       style={{
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        boxShadow: hovered
-          ? `0 20px 40px -8px ${project.accentFrom}30, 0 4px 12px -2px rgba(0,0,0,0.08)`
-          : "0 1px 4px 0 rgba(0,0,0,0.06)",
-        transition: "transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(28px)",
+        transition:
+          "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1)",
+        transitionDelay: `${(index % 3) * 90}ms`,
+        perspective: "900px",
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Image area */}
-      <div className="relative h-48 overflow-hidden">
+    <div
+      ref={innerRef}
+      className="journey-card flex flex-col overflow-hidden cursor-pointer relative"
+      style={{
+        transformStyle: "preserve-3d",
+        transition:
+          "transform 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease, box-shadow 220ms ease",
+        borderColor: hovered ? "var(--c-primary)" : undefined,
+        boxShadow: hovered
+          ? "0 12px 40px -10px hsl(var(--primary) / 0.35), 0 4px 18px -6px rgba(0,0,0,0.4)"
+          : "0 1px 4px 0 rgba(0,0,0,0.2)",
+        willChange: "transform",
+      }}
+    >
+      {/* cursor-following highlight (only visible on hover via opacity) */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at var(--mx, 50%) var(--my, 50%), hsl(var(--primary) / 0.18), transparent 40%)",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 240ms ease",
+          mixBlendMode: "screen",
+          zIndex: 2,
+          borderRadius: "inherit",
+        }}
+      />
+      {/* Image */}
+      <div className="relative h-44 overflow-hidden">
         <img
           src={project.image || "/placeholder.svg"}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700"
-          style={{ transform: hovered ? "scale(1.07)" : "scale(1)" }}
-        />
-        {/* Gradient overlay – stronger on hover */}
-        <div
-          className="absolute inset-0 transition-opacity duration-400"
+          className="w-full h-full object-cover"
           style={{
-            background: `linear-gradient(160deg, ${project.accentFrom}60, ${project.accentTo}80)`,
-            opacity: hovered ? 0.55 : 0.2,
+            transition: "transform 700ms ease, filter 400ms ease",
+            transform: hovered ? "scale(1.06)" : "scale(1)",
+            filter: hovered ? "brightness(0.85)" : "brightness(0.7) saturate(0.9)",
           }}
         />
-        {/* Top chips */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, hsl(var(--hero-bg) / 0.0) 35%, hsl(var(--hero-bg) / 0.85) 100%)",
+          }}
+        />
         <div className="absolute top-3 left-3 flex gap-2">
-          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${categoryColors[project.category] ?? "bg-gray-100 text-gray-600"}`}>
+          <span
+            className="px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+            style={{
+              background: "hsl(var(--background) / 0.7)",
+              color: "var(--c-fg)",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.125rem",
+            }}
+          >
             {project.category}
           </span>
-          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[project.status] ?? "bg-gray-100 text-gray-600"}`}>
-            {project.status === "Live" && <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 mr-1 align-middle" />}
+          <span
+            className="px-2 py-0.5 text-[10px] uppercase tracking-[0.16em] flex items-center gap-1"
+            style={{
+              background: isLive
+                ? "hsl(var(--primary) / 0.18)"
+                : "hsl(var(--muted) / 0.5)",
+              color: isLive ? "var(--c-primary)" : "hsl(var(--muted-foreground))",
+              border: `1px solid ${
+                isLive ? "hsl(var(--primary) / 0.4)" : "hsl(var(--border))"
+              }`,
+              borderRadius: "0.125rem",
+            }}
+          >
+            {isLive && (
+              <span
+                className="inline-block w-1.5 h-1.5"
+                style={{
+                  background: "var(--c-primary)",
+                  borderRadius: "50%",
+                  boxShadow: "0 0 6px hsl(var(--primary))",
+                }}
+              />
+            )}
             {project.status}
           </span>
         </div>
-        {/* Action buttons – slide in on hover */}
-        <div
-          className="absolute bottom-3 right-3 flex gap-2 transition-all duration-300"
-          style={{ opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(8px)" }}
+      </div>
+
+      <div className="flex flex-col flex-1 p-5 gap-3">
+        <div className="flex items-start justify-between gap-2">
+          <h3
+            className="text-lg font-semibold tracking-tight"
+            style={{ color: "var(--c-fg)" }}
+          >
+            {project.title}
+          </h3>
+          <ArrowUpRight
+            size={18}
+            style={{
+              color: hovered
+                ? "var(--c-primary)"
+                : "hsl(var(--muted-foreground))",
+              transform: hovered ? "translate(2px,-2px)" : "none",
+              transition: "transform 240ms ease, color 240ms ease",
+            }}
+          />
+        </div>
+
+        <p
+          className="text-sm leading-relaxed line-clamp-3"
+          style={{ color: "hsl(var(--muted-foreground))" }}
         >
+          {project.description}
+        </p>
+
+        <ul
+          className="flex flex-col gap-1.5 overflow-hidden"
+          style={{
+            maxHeight: hovered ? "8rem" : "0px",
+            opacity: hovered ? 1 : 0,
+            transition: "max-height 400ms ease, opacity 240ms ease",
+          }}
+        >
+          {project.highlights.slice(0, 3).map((h, i) => (
+            <li
+              key={i}
+              className="flex items-start gap-2 text-xs leading-relaxed"
+              style={{ color: "hsl(var(--foreground) / 0.78)" }}
+            >
+              <Zap
+                size={11}
+                className="flex-shrink-0 mt-0.5"
+                style={{ color: "var(--c-primary)" }}
+              />
+              {h}
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
+          {project.technologies.slice(0, 5).map((tech, i) => (
+            <span
+              key={i}
+              className="px-2 py-0.5 text-[10px]"
+              style={{
+                border: "1px solid hsl(var(--border))",
+                color: "hsl(var(--foreground) / 0.85)",
+                borderRadius: "0.125rem",
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+          {project.technologies.length > 5 && (
+            <span
+              className="px-2 py-0.5 text-[10px]"
+              style={{
+                border: "1px solid hsl(var(--border))",
+                color: "hsl(var(--muted-foreground))",
+                borderRadius: "0.125rem",
+              }}
+            >
+              +{project.technologies.length - 5}
+            </span>
+          )}
+        </div>
+
+        <div className="flex gap-3 pt-2">
           {project.liveUrl !== "#" && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow hover:bg-white transition-colors"
+              className="flex items-center gap-1 text-xs uppercase tracking-[0.14em] transition-colors"
+              style={{ color: "var(--c-primary)" }}
             >
               <ExternalLink size={12} /> Live
             </a>
@@ -221,105 +395,45 @@ function ProjectCard({ project }: { project: Project }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow hover:bg-white transition-colors"
+              className="flex items-center gap-1 text-xs uppercase tracking-[0.14em]"
+              style={{ color: "hsl(var(--muted-foreground))" }}
             >
               <Github size={12} /> Code
             </a>
           )}
         </div>
       </div>
-
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-5 gap-3">
-        {/* Title + arrow */}
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="text-lg font-bold text-gray-900 leading-tight">{project.title}</h3>
-          <ChevronRight
-            size={18}
-            className="flex-shrink-0 mt-0.5 text-gray-300 transition-all duration-300"
-            style={{
-              color: hovered ? project.accentFrom : undefined,
-              transform: hovered ? "translateX(3px)" : "translateX(0)",
-            }}
-          />
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">{project.description}</p>
-
-        {/* Highlights */}
-        <ul
-          className="flex flex-col gap-1.5 overflow-hidden transition-all duration-500"
-          style={{
-            maxHeight: hovered ? "8rem" : "0px",
-            opacity: hovered ? 1 : 0,
-          }}
-        >
-          {project.highlights.slice(0, 3).map((h, i) => (
-            <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
-              <Zap size={11} className="flex-shrink-0 mt-0.5" style={{ color: project.accentFrom }} />
-              {h}
-            </li>
-          ))}
-        </ul>
-
-        {/* Tech chips */}
-        <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
-          {project.technologies.slice(0, 5).map((tech, i) => (
-            <span
-              key={i}
-              className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-gray-600 transition-colors duration-300"
-              style={hovered ? { borderColor: `${project.accentFrom}40`, color: project.accentFrom } : {}}
-            >
-              {tech}
-            </span>
-          ))}
-          {project.technologies.length > 5 && (
-            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-gray-400">
-              +{project.technologies.length - 5}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Bottom accent bar */}
-      <div
-        className="h-0.5 w-full transition-all duration-500"
-        style={{
-          background: `linear-gradient(to right, ${project.accentFrom}, ${project.accentTo})`,
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? "scaleX(1)" : "scaleX(0)",
-          transformOrigin: "left",
-        }}
-      />
+    </div>
     </div>
   )
 }
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
+    <section
+      id="projects"
+      className="relative z-10 px-6 md:px-10 lg:px-16 py-24 md:py-32"
+    >
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-14">
-          <span className="inline-block text-sm font-semibold text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-4 tracking-wide uppercase">
-            Portfolio
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-balance">
-            Featured{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Projects
-            </span>
+        <header className="mb-14">
+          <p className="micro-label-accent mb-3">§02 / Projects</p>
+          <h2
+            className="text-3xl md:text-5xl font-semibold tracking-tight"
+            style={{ color: "var(--c-fg)", lineHeight: 1.05 }}
+          >
+            Selected work.
           </h2>
-          <p className="text-gray-500 text-lg max-w-xl mx-auto text-pretty">
-            A selection of work spanning full-stack development, data science, and systems programming.
+          <p
+            className="mt-4 max-w-xl"
+            style={{ color: "hsl(var(--muted-foreground))" }}
+          >
+            Full-stack apps, ML systems, data pipelines, and a compiler.
           </p>
-        </div>
+        </header>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {PROJECTS.map((project, i) => (
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>
       </div>
