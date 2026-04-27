@@ -137,6 +137,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false)
   const tiltRaf = useRef<number | null>(null)
   const tilt = useRef({ rx: 0, ry: 0, mx: 50, my: 50 })
+  const [tiltEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true
+    return !window.matchMedia("(max-width: 768px)").matches &&
+      !window.matchMedia("(pointer: coarse)").matches
+  })
 
   useEffect(() => {
     const el = ref.current
@@ -168,6 +173,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   }
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!tiltEnabled) return
     const card = ref.current
     if (!card) return
     const rect = card.getBoundingClientRect()

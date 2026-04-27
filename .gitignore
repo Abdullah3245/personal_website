@@ -18,6 +18,8 @@ dist-verify5
 dist-verify6
 dist-verify7
 dist-verify8
+dist-verify9
+dist-verify10
 *.local
 
 # Lock files

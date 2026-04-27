@@ -15,7 +15,11 @@ export default function Hero() {
     <section
       id="home"
       className="relative min-h-screen flex items-end overflow-hidden"
-      style={{ background: "transparent" }}
+      // pointer-events: none so the Spline scene behind us receives mouse
+      // events (hovering over blocks plays the scene's built-in animations).
+      // The hero's buttons / photo / social links opt back in with
+      // pointer-events-auto on themselves.
+      style={{ background: "transparent", pointerEvents: "none" }}
     >
       {/* Subtle dark overlay so the headline reads on top of the Spline scene */}
       <div

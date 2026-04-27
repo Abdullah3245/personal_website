@@ -33,18 +33,32 @@ export default function ThreeNameParticles({
   const textRef = useRef<HTMLSpanElement>(null)
   const canvasMountRef = useRef<HTMLSpanElement>(null)
 
+  // Detect mobile / reduced-motion once on mount. On mobile we never spin
+  // up a WebGL context — two of these running simultaneously was a real
+  // chunk of mobile-GPU cost. Just render the crisp HTML text.
+  const [skipWebGL] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false
+    return (
+      window.matchMedia("(max-width: 768px)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+  })
+
   // Visual state controlled by React (drives CSS opacity transitions on
   // both the crisp <span> and the canvas wrapper).
   // "intro"      → canvas shown, text hidden
   // "settled"    → text shown, canvas hidden
   // "scattered"  → canvas shown, text hidden, mouse-repel active
-  const [mode, setMode] = useState<"intro" | "settled" | "scattered">("intro")
+  const [mode, setMode] = useState<"intro" | "settled" | "scattered">(
+    skipWebGL ? "settled" : "intro",
+  )
 
   // refs for cross-effect communication
   const modeRef = useRef(mode)
   modeRef.current = mode
 
   useEffect(() => {
+    if (skipWebGL) return
     const mount = canvasMountRef.current
     const textEl = textRef.current
     const wrapper = wrapperRef.current
@@ -354,13 +368,16 @@ export default function ThreeNameParticles({
         mount.removeChild(renderer.domElement)
       }
     }
-  }, [text, color, colorFrom, colorTo])
+  }, [text, color, colorFrom, colorTo, skipWebGL])
 
-  // Hover handlers — only meaningful once we're past the intro
+  // Hover handlers — only meaningful once we're past the intro and only
+  // when WebGL is enabled (on mobile we render plain HTML text).
   const handleEnter = () => {
+    if (skipWebGL) return
     if (modeRef.current === "settled") setMode("scattered")
   }
   const handleLeave = () => {
+    if (skipWebGL) return
     if (modeRef.current === "scattered") setMode("settled")
   }
 
@@ -394,18 +411,20 @@ export default function ThreeNameParticles({
       >
         {text}
       </span>
-      {/* Canvas overlay — exact size of the text */}
-      <span
-        ref={canvasMountRef}
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: mode === "settled" ? 0 : 1,
-          transition: "opacity 350ms ease-in-out",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Canvas overlay — exact size of the text. Skipped on mobile. */}
+      {!skipWebGL && (
+        <span
+          ref={canvasMountRef}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            opacity: mode === "settled" ? 0 : 1,
+            transition: "opacity 350ms ease-in-out",
+            pointerEvents: "none",
+          }}
+        />
+      )}
     </span>
   )
 }
