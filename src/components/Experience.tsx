@@ -20,6 +20,24 @@ interface ExperienceItem {
 
 const EXPERIENCES: ExperienceItem[] = [
   {
+    title: "Founding AI Engineer",
+    company: "AeternalLabs",
+    subCompany: "Runtime AI-governance · counterfactual fairness for LLMs",
+    location: "Remote",
+    period: "05/2026 — Present",
+    type: "Founding",
+    description:
+      "First engineering hire building the backend and ML infrastructure for a runtime AI-governance platform that audits LLMs for demographic fairness inside live inference pipelines.",
+    achievements: [
+      "Built a multi-provider LLM routing layer across 8 providers and 18+ frontier models behind a single FastAPI gateway",
+      "Parallelized counterfactual A/B evaluation with a thread pool, cutting end-to-end runtime 1.88× (158s → 84s)",
+      "Designed a PostgreSQL audit-trail store (SQLAlchemy) with SHA-256 input-integrity hashing for tamper-evident, regulator-ready provenance",
+    ],
+    technologies: ["Python", "FastAPI", "PostgreSQL", "LLMs", "SQLAlchemy", "Docker"],
+    website: "#",
+    icon: "ml",
+  },
+  {
     title: "Machine Learning Engineer",
     company: "PennAdapt",
     subCompany: "Penn Assistive Devices and Prosthetic Technologies",
@@ -180,21 +198,23 @@ function ExperienceRow({ exp, index }: { exp: ExperienceItem; index: number }) {
             </p>
           )}
         </div>
-        <a
-          href={exp.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs uppercase tracking-[0.16em] flex items-center gap-1 transition-colors"
-          style={{ color: "hsl(var(--muted-foreground))" }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "var(--c-primary)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "hsl(var(--muted-foreground))")
-          }
-        >
-          Visit <ExternalLink size={12} />
-        </a>
+        {exp.website !== "#" && (
+          <a
+            href={exp.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs uppercase tracking-[0.16em] flex items-center gap-1 transition-colors"
+            style={{ color: "hsl(var(--muted-foreground))" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--c-primary)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "hsl(var(--muted-foreground))")
+            }
+          >
+            Visit <ExternalLink size={12} />
+          </a>
+        )}
       </div>
 
       <p
@@ -242,7 +262,6 @@ function ExperienceRow({ exp, index }: { exp: ExperienceItem; index: number }) {
 export default function Experience() {
   return (
     <section
-      id="experience"
       className="relative z-10 px-6 md:px-10 lg:px-16 py-24 md:py-32"
     >
       <div className="max-w-5xl mx-auto">
@@ -258,8 +277,8 @@ export default function Experience() {
             className="mt-4 max-w-xl"
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
-            Research at Penn, full-stack engineering at CHOP, applied ML at
-            PennAdapt, and analytics at Clab AI.
+            Founding engineering at AeternalLabs, research at Penn's CSS Lab,
+            full-stack at CHOP, and applied ML at PennAdapt.
           </p>
         </header>
 

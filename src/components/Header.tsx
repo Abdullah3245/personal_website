@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Menu, X } from "lucide-react"
+import HeaderConstellation from "./HeaderConstellation"
 
 interface HeaderProps {
   activeSection: string
@@ -19,6 +20,34 @@ const NAV_ITEMS = [
 export default function Header({ activeSection, setActiveSection }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  // Measure the active nav item's center so the header constellation can
+  // gravitate (cluster) around it and glide there as the section changes.
+  const headerRef = useRef<HTMLElement>(null)
+  const navRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const [focus, setFocus] = useState<{ x: number; y: number } | null>(null)
+
+  useEffect(() => {
+    const measure = () => {
+      const header = headerRef.current
+      const btn = navRefs.current[activeSection]
+      if (!header || !btn) return
+      const hr = header.getBoundingClientRect()
+      const br = btn.getBoundingClientRect()
+      setFocus({
+        x: br.left - hr.left + br.width / 2,
+        y: br.top - hr.top + br.height / 2,
+      })
+    }
+    measure()
+    window.addEventListener("resize", measure)
+    // re-measure shortly after mount/font-load so positions are accurate
+    const t = setTimeout(measure, 300)
+    return () => {
+      window.removeEventListener("resize", measure)
+      clearTimeout(t)
+    }
+  }, [activeSection])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +93,8 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-hidden ${
         scrolled
           ? "backdrop-blur-md"
           : ""
@@ -76,7 +106,11 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
           : "1px solid transparent",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      {/* live constellation across the whole header band — clusters on the
+          active section's nav label and glides there as you scroll */}
+      <HeaderConstellation focusX={focus?.x ?? null} focusY={focus?.y ?? null} />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center py-5">
           {/* Logo / monogram */}
           <a
@@ -91,19 +125,22 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
             ABDULLAH<span style={{ color: "var(--c-primary)" }}>.</span>
           </a>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex gap-8">
+          {/* Desktop nav — clean labels over the live constellation. The
+              active section gets a glowing dot + bright label. */}
+          <nav className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map((item) => {
               const active = activeSection === item.id
               return (
                 <button
                   key={item.id}
+                  ref={(el) => {
+                    navRefs.current[item.id] = el
+                  }}
                   onClick={() => scrollToSection(item.id)}
-                  className="text-xs uppercase tracking-[0.18em] transition-colors cursor-pointer"
+                  aria-current={active ? "page" : undefined}
+                  className="relative flex items-center gap-2 text-xs uppercase tracking-[0.18em] transition-colors cursor-pointer"
                   style={{
-                    color: active
-                      ? "var(--c-fg)"
-                      : "hsl(var(--muted-foreground))",
+                    color: active ? "var(--c-fg)" : "hsl(var(--muted-foreground))",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.color = "var(--c-fg)")
@@ -114,6 +151,18 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
                       : "hsl(var(--muted-foreground))")
                   }
                 >
+                  <span
+                    aria-hidden="true"
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: active ? 7 : 0,
+                      height: active ? 7 : 0,
+                      background: "hsl(var(--primary))",
+                      boxShadow: active
+                        ? "0 0 10px 2px hsl(var(--primary) / 0.9)"
+                        : "none",
+                    }}
+                  />
                   {item.label}
                 </button>
               )
@@ -122,8 +171,8 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
 
           {/* CTA */}
           <a
-            href="/files/Abdullah_resume.docx"
-            download="Abdullah_resume"
+            href="/files/resume.pdf"
+            download="Abdullah_Goher_Resume.pdf"
             target="_blank"
             rel="noreferrer"
             className="btn-ghost hidden md:inline-flex"
@@ -168,8 +217,8 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
                 )
               })}
               <a
-                href="/files/Abdullah_resume.docx"
-                download="Abdullah_resume"
+                href="/files/resume.pdf"
+                download="Abdullah_Goher_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="btn-ghost mt-3 w-fit"

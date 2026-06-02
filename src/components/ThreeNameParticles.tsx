@@ -6,19 +6,25 @@ import * as THREE from "three"
 interface ThreeNameParticlesProps {
   text?: string
   className?: string
-  /** Single solid color for both crisp text and particles. */
+  /** Single solid color for the particles. */
   color?: string
   /** Gradient start color (used if `color` is not set). */
   colorFrom?: string
   /** Gradient end color (used if `color` is not set). */
   colorTo?: string
+  /** Approx number of particles to render the word with (~1600 across a name). */
+  particleCount?: number
 }
 
 /**
- * Inline particle text. Default state: crisp HTML text (solid or gradient).
- * On mount, runs an intro where particles assemble into the letters, then
- * fades to the crisp text. Hovering the text breaks it back into particles;
- * leaving the area lets them settle and the crisp text fades back in.
+ * Headline text permanently *dissolved into particles*. The word is sampled
+ * into pixels, then downsampled to ~`particleCount` points that spring into
+ * the letter shapes on mount and hold there as a glowing cloud. Sweeping the
+ * cursor through the letters scatters the particles; they reassemble when the
+ * cursor leaves. There is no crisp-text state on desktop — the particles ARE
+ * the headline.
+ *
+ * On mobile / reduced-motion we skip WebGL entirely and render crisp text.
  *
  * Renders as an inline-block span — drop it inside an h1 next to other text.
  */
@@ -26,16 +32,16 @@ export default function ThreeNameParticles({
   text = "Abdullah Goher",
   className = "",
   color,
-  colorFrom = "#2563eb",
-  colorTo = "#9333ea",
+  colorFrom = "#4f7cff",
+  colorTo = "#a855f7",
+  particleCount = 1000,
 }: ThreeNameParticlesProps) {
   const wrapperRef = useRef<HTMLSpanElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
   const canvasMountRef = useRef<HTMLSpanElement>(null)
 
-  // Detect mobile / reduced-motion once on mount. On mobile we never spin
-  // up a WebGL context — two of these running simultaneously was a real
-  // chunk of mobile-GPU cost. Just render the crisp HTML text.
+  // Detect mobile / reduced-motion once on mount. On mobile we never spin up a
+  // WebGL context — instead we render the crisp HTML text.
   const [skipWebGL] = useState<boolean>(() => {
     if (typeof window === "undefined") return false
     return (
@@ -44,19 +50,6 @@ export default function ThreeNameParticles({
     )
   })
 
-  // Visual state controlled by React (drives CSS opacity transitions on
-  // both the crisp <span> and the canvas wrapper).
-  // "intro"      → canvas shown, text hidden
-  // "settled"    → text shown, canvas hidden
-  // "scattered"  → canvas shown, text hidden, mouse-repel active
-  const [mode, setMode] = useState<"intro" | "settled" | "scattered">(
-    skipWebGL ? "settled" : "intro",
-  )
-
-  // refs for cross-effect communication
-  const modeRef = useRef(mode)
-  modeRef.current = mode
-
   useEffect(() => {
     if (skipWebGL) return
     const mount = canvasMountRef.current
@@ -64,12 +57,9 @@ export default function ThreeNameParticles({
     const wrapper = wrapperRef.current
     if (!mount || !textEl || !wrapper) return
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
     // ---------- size canvas to match the rendered text ----------
     let width = Math.max(1, textEl.offsetWidth)
     let height = Math.max(1, textEl.offsetHeight)
-    // measured font size for the offscreen text canvas (matches CSS line-height)
     const computedStyle = window.getComputedStyle(textEl)
     let fontSize = parseFloat(computedStyle.fontSize) || 64
     let fontFamily = computedStyle.fontFamily || "Inter, sans-serif"
@@ -86,15 +76,16 @@ export default function ThreeNameParticles({
     renderer.domElement.style.height = "100%"
 
     const scene = new THREE.Scene()
-    // Use orthographic so 1 world unit ~= 1 pixel — easy to align with text
-    let camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, -1000, 1000)
+    const camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, -1000, 1000)
     camera.position.z = 10
 
-    // ---------- sample text into target points ----------
+    // ---------- sample text → downsample to ~particleCount target points ----------
+    // world-px spacing between sampled grid points — drives the point size so
+    // dots tile the strokes cleanly without piling into blobs.
+    let pointSpacing = 4
     const sampleText = (): { x: number; y: number }[] => {
       const off = document.createElement("canvas")
       const ctx = off.getContext("2d")!
-      // Render at higher DPR for sharp sampling
       const dpr = Math.min(window.devicePixelRatio, 2)
       off.width = Math.ceil(width * dpr)
       off.height = Math.ceil(height * dpr)
@@ -105,19 +96,24 @@ export default function ThreeNameParticles({
       ctx.fillStyle = "#ffffff"
       ctx.fillText(text, width / 2, height / 2)
 
-      const data = ctx.getImageData(0, 0, off.width, off.height).data
-      const stride = Math.max(2, Math.round(fontSize / 28))
+      const W = off.width
+      const H = off.height
+      const data = ctx.getImageData(0, 0, W, H).data
+
+      // pass 1: count filled pixels so we can pick an EVEN grid step that lands
+      // ~particleCount points. An even grid reads as clean letterforms; the old
+      // random downsample produced uneven density that looked blobby.
+      let filled = 0
+      for (let i = 3; i < data.length; i += 4) if (data[i] > 128) filled++
+      const step = Math.max(2, Math.round(Math.sqrt(filled / Math.max(1, particleCount))))
+      pointSpacing = step / dpr
+
+      // pass 2: one point per filled grid cell
       const pts: { x: number; y: number }[] = []
-      for (let y = 0; y < off.height; y += stride) {
-        for (let x = 0; x < off.width; x += stride) {
-          const alpha = data[(y * off.width + x) * 4 + 3]
-          if (alpha > 128) {
-            // Center & flip Y. Convert pixel coords → world coords matching
-            // the orthographic camera.
-            pts.push({
-              x: x / dpr - width / 2,
-              y: -(y / dpr - height / 2),
-            })
+      for (let y = 0; y < H; y += step) {
+        for (let x = 0; x < W; x += step) {
+          if (data[(y * W + x) * 4 + 3] > 128) {
+            pts.push({ x: x / dpr - width / 2, y: -(y / dpr - height / 2) })
           }
         }
       }
@@ -125,7 +121,7 @@ export default function ThreeNameParticles({
     }
 
     let targets = sampleText()
-    let particleCount = targets.length
+    let count = targets.length
 
     // ---------- particle buffers ----------
     const colorA = new THREE.Color(color || colorFrom)
@@ -136,8 +132,8 @@ export default function ThreeNameParticles({
       const n = pts.length
       const positions = new Float32Array(n * 3)
       const tgts = new Float32Array(n * 3)
-      const colors = new Float32Array(n * 3)
-      const offsets = new Float32Array(n)
+      const cols = new Float32Array(n * 3)
+      const offs = new Float32Array(n)
 
       let minX = Infinity, maxX = -Infinity
       for (const p of pts) {
@@ -149,56 +145,59 @@ export default function ThreeNameParticles({
       for (let i = 0; i < n; i++) {
         const p = pts[i]
         const i3 = i * 3
-        // start: scattered around in a wider area
+        // start: scattered in a ring so they fly inward on mount
         const r = Math.max(width, height) * 0.6 + Math.random() * Math.max(width, height) * 0.5
         const a = Math.random() * Math.PI * 2
         positions[i3 + 0] = Math.cos(a) * r
         positions[i3 + 1] = Math.sin(a) * r
-        positions[i3 + 2] = (Math.random() - 0.5) * 60
+        positions[i3 + 2] = 0
         tgts[i3 + 0] = p.x
         tgts[i3 + 1] = p.y
-        tgts[i3 + 2] = (Math.random() - 0.5) * 6
+        tgts[i3 + 2] = 0 // keep dots in-plane so they stay crisp
         tmp.copy(colorA).lerp(colorB, (p.x - minX) / range)
-        colors[i3 + 0] = tmp.r
-        colors[i3 + 1] = tmp.g
-        colors[i3 + 2] = tmp.b
-        offsets[i] = Math.random() * Math.PI * 2
+        cols[i3 + 0] = tmp.r
+        cols[i3 + 1] = tmp.g
+        cols[i3 + 2] = tmp.b
+        offs[i] = Math.random() * Math.PI * 2
       }
-      return { positions, tgts, colors, offsets }
+      return { positions, tgts, colors: cols, offsets: offs }
     }
 
     let { positions, tgts, colors, offsets } = buildBuffers(targets)
-    let velocities = new Float32Array(particleCount * 3)
+    let velocities = new Float32Array(count * 3)
 
     let geometry = new THREE.BufferGeometry()
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3))
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3))
 
-    // soft point sprite
+    // crisp point sprite — solid bright core, tight falloff (no big soft halo
+    // that smears neighbouring dots into blobs)
     const makeSprite = () => {
       const c = document.createElement("canvas")
       c.width = c.height = 64
       const g = c.getContext("2d")!
       const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32)
       grad.addColorStop(0, "rgba(255,255,255,1)")
-      grad.addColorStop(0.45, "rgba(255,255,255,0.5)")
+      grad.addColorStop(0.32, "rgba(255,255,255,0.95)")
+      grad.addColorStop(0.55, "rgba(255,255,255,0.35)")
       grad.addColorStop(1, "rgba(255,255,255,0)")
       g.fillStyle = grad
       g.fillRect(0, 0, 64, 64)
-      const tex = new THREE.CanvasTexture(c)
-      return tex
+      return new THREE.CanvasTexture(c)
     }
     const sprite = makeSprite()
 
+    // size ~= grid spacing so dots sit edge-to-edge, distinct, not overlapping
+    const dotSize = () => Math.max(2, Math.min(5, pointSpacing * 1.15))
     const material = new THREE.PointsMaterial({
-      size: Math.max(2, fontSize * 0.045),
+      size: dotSize(),
       map: sprite,
       vertexColors: true,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       sizeAttenuation: false,
-      opacity: 0.95,
+      opacity: 1,
     })
 
     let points = new THREE.Points(geometry, material)
@@ -208,82 +207,47 @@ export default function ThreeNameParticles({
     const mouseLocal = new THREE.Vector3(99999, 99999, 0)
     const onMove = (e: MouseEvent) => {
       const rect = renderer.domElement.getBoundingClientRect()
-      // skip when not over our canvas (we still listen window-wide so the
-      // particle scatter feels seamless when crossing into the area)
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      mouseLocal.x = x - width / 2
-      mouseLocal.y = -(y - height / 2)
+      mouseLocal.x = e.clientX - rect.left - width / 2
+      mouseLocal.y = -(e.clientY - rect.top - height / 2)
     }
-    const onLeaveWindow = () => {
-      mouseLocal.set(99999, 99999, 0)
-    }
+    const onLeaveWindow = () => mouseLocal.set(99999, 99999, 0)
     window.addEventListener("mousemove", onMove)
     window.addEventListener("mouseleave", onLeaveWindow)
 
     // ---------- animation ----------
     const clock = new THREE.Clock()
-    let assembled = 0      // 0→1 over intro
-    let scatterMode = 1    // 1 during intro/scattered, 0 when settled
+    let assembled = 0 // 0→1 fly-in on mount
     let raf = 0
-    let introTimeout: ReturnType<typeof setTimeout> | null = null
 
-    // After intro animation completes, switch to settled mode
-    introTimeout = setTimeout(() => {
-      setMode("settled")
-    }, reducedMotion ? 200 : 1500)
+    const repelRadius = Math.max(48, fontSize * 0.7)
+    const repelStrength = fontSize * 20
+    const returnStrength = 20 // tighter spring → dots snap precisely onto glyphs
+    const damping = 0.78
 
     const animate = () => {
       raf = requestAnimationFrame(animate)
       const dt = Math.min(clock.getDelta(), 0.05)
       const t = clock.elapsedTime
-
-      // intro assembly
-      if (assembled < 1) assembled = Math.min(1, assembled + dt * 0.9)
-
-      const m = modeRef.current
-      // settled means: skip simulating — saves CPU. When user re-hovers we
-      // resume. We still render once-per-frame so opacity transitions show.
-      if (m === "settled") {
-        // particles are at the targets but invisible; nothing to update
-        renderer.render(scene, camera)
-        return
-      }
-
-      const repelRadius = Math.max(60, fontSize * 0.9)
-      const repelStrength = fontSize * 22
-      const returnStrength = 18
-      const damping = 0.78
+      if (assembled < 1) assembled = Math.min(1, assembled + dt * 0.8)
 
       const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute
       const pos = posAttr.array as Float32Array
+      const mouseNear = mouseLocal.x < 90000
 
-      const isHover = m === "scattered"
-
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < count; i++) {
         const i3 = i * 3
-        // gentle target wobble
-        const wob = isHover ? 2.5 : 1.0
-        const tx = tgts[i3] + Math.sin(t * 1.3 + offsets[i]) * wob
-        const ty = tgts[i3 + 1] + Math.cos(t * 1.5 + offsets[i]) * wob
-        const tz = tgts[i3 + 2]
+        // barely-there shimmer so the word reads as crisp text, not a cloud
+        const tx = tgts[i3] + Math.sin(t * 0.8 + offsets[i]) * 0.35
+        const ty = tgts[i3 + 1] + Math.cos(t * 0.9 + offsets[i]) * 0.35
 
-        // scale target by intro assembled (so particles fly in)
         const aTx = tx * assembled
         const aTy = ty * assembled
-        const aTz = tz * assembled
 
-        const dx = aTx - pos[i3]
-        const dy = aTy - pos[i3 + 1]
-        const dz = aTz - pos[i3 + 2]
+        velocities[i3] += (aTx - pos[i3]) * returnStrength * dt
+        velocities[i3 + 1] += (aTy - pos[i3 + 1]) * returnStrength * dt
 
-        velocities[i3] += dx * returnStrength * dt
-        velocities[i3 + 1] += dy * returnStrength * dt
-        velocities[i3 + 2] += dz * returnStrength * dt
-
-        // mouse repel only when we're in hover/scattered mode AND mouse is
-        // actually near the canvas
-        if (isHover && mouseLocal.x < 90000) {
+        // cursor scatter — always on (no hover gate)
+        if (mouseNear) {
           const mdx = pos[i3] - mouseLocal.x
           const mdy = pos[i3 + 1] - mouseLocal.y
           const dSq = mdx * mdx + mdy * mdy
@@ -295,18 +259,14 @@ export default function ThreeNameParticles({
           }
         }
 
-        // damping + integrate
         velocities[i3] *= damping
         velocities[i3 + 1] *= damping
-        velocities[i3 + 2] *= damping
         pos[i3] += velocities[i3] * dt
         pos[i3 + 1] += velocities[i3 + 1] * dt
-        pos[i3 + 2] += velocities[i3 + 2] * dt
       }
 
       posAttr.needsUpdate = true
       renderer.render(scene, camera)
-      void scatterMode
     }
     animate()
 
@@ -329,22 +289,21 @@ export default function ThreeNameParticles({
       camera.bottom = -height / 2
       camera.updateProjectionMatrix()
 
-      // re-sample text
       targets = sampleText()
       const built = buildBuffers(targets)
-      particleCount = targets.length
+      count = targets.length
       positions = built.positions
       tgts = built.tgts
       colors = built.colors
       offsets = built.offsets
-      velocities = new Float32Array(particleCount * 3)
+      velocities = new Float32Array(count * 3)
 
       scene.remove(points)
       geometry.dispose()
       geometry = new THREE.BufferGeometry()
       geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3))
       geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3))
-      material.size = Math.max(2, fontSize * 0.045)
+      material.size = dotSize()
       points = new THREE.Points(geometry, material)
       scene.add(points)
     }
@@ -355,7 +314,6 @@ export default function ThreeNameParticles({
 
     return () => {
       cancelAnimationFrame(raf)
-      if (introTimeout) clearTimeout(introTimeout)
       ro.disconnect()
       window.removeEventListener("resize", recomputeForSize)
       window.removeEventListener("mousemove", onMove)
@@ -368,35 +326,21 @@ export default function ThreeNameParticles({
         mount.removeChild(renderer.domElement)
       }
     }
-  }, [text, color, colorFrom, colorTo, skipWebGL])
-
-  // Hover handlers — only meaningful once we're past the intro and only
-  // when WebGL is enabled (on mobile we render plain HTML text).
-  const handleEnter = () => {
-    if (skipWebGL) return
-    if (modeRef.current === "settled") setMode("scattered")
-  }
-  const handleLeave = () => {
-    if (skipWebGL) return
-    if (modeRef.current === "scattered") setMode("settled")
-  }
+  }, [text, color, colorFrom, colorTo, particleCount, skipWebGL])
 
   return (
     <span
       ref={wrapperRef}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      onTouchStart={handleEnter}
-      onTouchEnd={handleLeave}
-      className={`relative inline-block align-baseline cursor-pointer ${className}`}
+      className={`relative inline-block align-baseline ${className}`}
       style={{ lineHeight: 1 }}
     >
-      {/* Crisp HTML text — visible default. Either solid color or gradient. */}
+      {/* Text layer. On desktop it's invisible (particles are the headline) but
+          still occupies layout space and remains screen-reader readable. On
+          mobile it's the visible crisp fallback. */}
       <span
         ref={textRef}
         style={{
-          opacity: mode === "settled" ? 1 : 0,
-          transition: "opacity 350ms ease-in-out",
+          opacity: skipWebGL ? 1 : 0,
           display: "inline-block",
           ...(color
             ? { color }
@@ -411,7 +355,7 @@ export default function ThreeNameParticles({
       >
         {text}
       </span>
-      {/* Canvas overlay — exact size of the text. Skipped on mobile. */}
+      {/* Particle canvas overlay — exact size of the text. Skipped on mobile. */}
       {!skipWebGL && (
         <span
           ref={canvasMountRef}
@@ -419,8 +363,6 @@ export default function ThreeNameParticles({
           style={{
             position: "absolute",
             inset: 0,
-            opacity: mode === "settled" ? 0 : 1,
-            transition: "opacity 350ms ease-in-out",
             pointerEvents: "none",
           }}
         />

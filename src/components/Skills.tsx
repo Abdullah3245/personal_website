@@ -7,7 +7,7 @@ const SKILL_CATEGORIES = [
   {
     title: "Languages",
     icon: Code,
-    skills: ["Python", "JavaScript", "TypeScript", "Java", "SQL", "C"],
+    skills: ["Python", "JavaScript", "TypeScript", "Java", "C++", "SQL", "C"],
   },
   {
     title: "Frontend",
@@ -17,22 +17,22 @@ const SKILL_CATEGORIES = [
   {
     title: "Backend / Data",
     icon: Database,
-    skills: ["Node.js", "Express", "Django", "MongoDB", "PostgreSQL", "DuckDB"],
+    skills: ["Node.js", "Express", "FastAPI", "REST APIs", "MongoDB", "PostgreSQL", "SQLAlchemy"],
   },
   {
     title: "ML / AI",
     icon: Brain,
-    skills: ["PyTorch", "TensorFlow", "Scikit-Learn", "XGBoost", "CV", "NLP"],
+    skills: ["PyTorch", "TensorFlow", "HuggingFace", "LangChain", "LangGraph", "RAG", "Fine-tuning", "CV", "NLP"],
   },
   {
     title: "Data Science",
     icon: Database,
-    skills: ["Pandas", "NumPy", "Matplotlib", "Stats", "Feature Engineering"],
+    skills: ["Pandas", "NumPy", "PySpark", "Scikit-Learn", "Matplotlib", "Stats", "Feature Engineering"],
   },
   {
     title: "Tools",
     icon: Wrench,
-    skills: ["Git", "Docker", "AWS", "Cypress", "JUnit", "Web Scraping"],
+    skills: ["Git", "Docker", "AWS", "Linux", "Cypress", "Vitest", "pytest"],
   },
 ]
 
@@ -126,7 +126,6 @@ function CategoryCard({
 export default function Skills() {
   return (
     <section
-      id="skills"
       className="relative z-10 px-6 md:px-10 lg:px-16 py-24 md:py-32"
     >
       <div className="max-w-6xl mx-auto">

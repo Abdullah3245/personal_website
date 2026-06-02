@@ -17,6 +17,54 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
+    title: "Research Swarm",
+    description:
+      "A LangGraph multi-agent research system: a planner fans out parallel research branches, then a cross-vendor critic verifies key claims before a cited synthesis.",
+    image: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?w=800&auto=format&fit=crop",
+    technologies: ["Python", "LangGraph", "LangChain", "FastAPI", "Multi-Agent"],
+    liveUrl: "#",
+    githubUrl: "#",
+    category: "AI / Agents",
+    status: "Live",
+    highlights: [
+      "Converge–diverge topology with dynamic Send fan-out",
+      "Cross-vendor critic breaks correlated hallucination",
+      "Orchestrates Claude, GPT, Gemini, Perplexity, and local Ollama",
+    ],
+  },
+  {
+    title: "News Source Classification",
+    description:
+      "Headline classifier distinguishing Fox vs. NBC. Scaled the dataset from 3.8k to 17.9k headlines and fine-tuned transformer backbones to 91.75% accuracy.",
+    image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&auto=format&fit=crop",
+    technologies: ["PyTorch", "HuggingFace", "RoBERTa", "scikit-learn", "NLP"],
+    liveUrl: "https://huggingface.co/datasets/PudgySquirrel/cis5190-news-headlines",
+    githubUrl: "https://github.com/EtienneLee/CIS-5190---Group-55",
+    category: "ML",
+    status: "Completed",
+    highlights: [
+      "Scaled dataset 3,800 → 17,900 via sitemap + Apify scraping",
+      "Fine-tuned RoBERTa / DeBERTa backbones",
+      "RoBERTa-base + LinearSVC head reached 91.75% accuracy",
+    ],
+  },
+  {
+    title: "Mini Minecraft",
+    description:
+      "Procedurally-generated 3D voxel world in C++/OpenGL. Built multithreaded terrain streaming, player physics, procedural flora, and atmospheric effects.",
+    image: "https://images.unsplash.com/photo-1607513746994-51f730a44832?w=800&auto=format&fit=crop",
+    technologies: ["C++", "OpenGL", "GLSL", "Multithreading"],
+    liveUrl: "#",
+    githubUrl: "#",
+    category: "Graphics",
+    status: "Completed",
+    highlights: [
+      "Multithreaded chunk loading / terrain generation",
+      "Player physics: collision, gravity, jumping, swimming",
+      "Procedural flora (Perlin) + SDF trees, day/night cycle, fog",
+    ],
+  },
+  {
     title: "Nomad",
     description:
       "Full-stack human-mobility research platform making mobility datasets, algorithms, and resources accessible to Computational Social Science researchers.",
@@ -250,6 +298,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           src={project.image || "/placeholder.svg"}
           alt={project.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none"
+          }}
           style={{
             transition: "transform 700ms ease, filter 400ms ease",
             transform: hovered ? "scale(1.06)" : "scale(1)",
@@ -417,7 +468,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 const Projects = () => {
   return (
     <section
-      id="projects"
       className="relative z-10 px-6 md:px-10 lg:px-16 py-24 md:py-32"
     >
       <div className="max-w-7xl mx-auto">
@@ -433,7 +483,7 @@ const Projects = () => {
             className="mt-4 max-w-xl"
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
-            Full-stack apps, ML systems, data pipelines, and a compiler.
+            AI agents, ML systems, full-stack apps, data pipelines, and a graphics engine.
           </p>
         </header>
 

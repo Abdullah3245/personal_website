@@ -10,21 +10,27 @@
   /* HSL components — used as `hsl(var(--token))` in Tailwind arbitrary values */
   --background: 0 0% 10%;
   --foreground: 0 0% 96%;
-  --primary: 119 99% 46%;
-  --primary-foreground: 0 0% 4%;
+  /* Brand primary — vivid blue-violet to match the constellation */
+  --primary: 245 100% 70%;
+  --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 18%;
   --secondary-foreground: 0 0% 96%;
   --muted: 0 0% 16%;
   --muted-foreground: 0 0% 60%;
-  --accent: 119 99% 46%;
-  --accent-foreground: 0 0% 4%;
+  --accent: 268 88% 65%;
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 84% 60%;
   --border: 0 0% 20%;
   --input: 0 0% 20%;
-  --ring: 119 99% 46%;
+  --ring: 245 100% 70%;
   --radius: 0.5rem;
   --nav-button: 0 0% 18%;
   --hero-bg: 0 0% 8%;
+
+  /* Neon accent ramp — matches the particle field (blue → indigo → purple) */
+  --neon-blue: #4f7cff;
+  --neon-cyan: #6d6bff;
+  --neon-violet: #a855f7;
 
   /* Convenience direct colors */
   --c-bg: hsl(var(--background));
@@ -177,13 +183,55 @@
     0% { opacity: 0; }
     100% { opacity: 1; }
   }
+
+  /* Pulsing ring for the active constellation node in the header */
+  @keyframes node-pulse {
+    0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.7; }
+    70%  { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+  }
+
+  /* Neon gradient text — for accent words in headings */
+  .text-neon {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan), var(--neon-violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Hairline gradient divider */
+  .neon-divider {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    opacity: 0.5;
+  }
+
+  /* Soft accent glow for the brand-green primary on dark surfaces */
+  .glow-primary {
+    box-shadow: 0 0 22px hsl(var(--primary) / 0.45);
+  }
+}
+
+/* Respect reduced-motion: kill the smooth-scroll + entrance animations */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* Custom scrollbar to match dark theme */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--c-hero-bg); }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: linear-gradient(180deg, var(--neon-blue), var(--neon-violet));
   border: 2px solid var(--c-hero-bg);
+  border-radius: 6px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--c-primary); }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }

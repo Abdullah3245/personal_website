@@ -8,4 +8,9 @@ export default defineConfig({
   plugins: [
     react(),
   tailwindcss()],
+  build: {
+    // Three.js is a single large dep loaded lazily; the 500kB default warning
+    // isn't actionable for us, so lift it to keep the build output clean.
+    chunkSizeWarningLimit: 1000,
+  },
 })

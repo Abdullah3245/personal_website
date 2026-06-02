@@ -70,7 +70,7 @@ export default function Footer() {
           style={{ color: "hsl(var(--muted-foreground))" }}>
           <p>© {new Date().getFullYear()} Abdullah Goher. All rights reserved.</p>
           <p>
-            Built with React · Vite · Spline ·{" "}
+            Built with React · Vite · Three.js · Motion ·{" "}
             <span style={{ color: "var(--c-primary)" }}>Sora</span>
           </p>
         </div>

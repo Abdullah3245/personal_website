@@ -35,3 +35,8 @@ pnpm-lock.yaml
 *.njsproj
 *.sln
 *.sw?
+
+# temp verification builds
+dist-new
+dist-final
+dist-ok-*

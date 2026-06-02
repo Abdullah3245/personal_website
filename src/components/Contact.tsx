@@ -54,7 +54,6 @@ export default function Contact() {
 
   return (
     <section
-      id="contact"
       className="relative z-10 px-6 md:px-10 lg:px-16 py-24 md:py-32"
     >
       <div className="max-w-4xl mx-auto">
@@ -144,8 +143,8 @@ export default function Contact() {
               Send a quick email
             </button>
             <a
-              href="/files/Abdullah_resume.docx"
-              download="Abdullah_resume"
+              href="/files/resume.pdf"
+              download="Abdullah_Goher_Resume.pdf"
               target="_blank"
               rel="noreferrer"
               className="btn-secondary text-sm"

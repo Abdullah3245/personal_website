@@ -1,27 +1,40 @@
 "use client"
 
-import { Github, Linkedin, Mail } from "lucide-react"
+import { useRef } from "react"
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
+import { Github, Linkedin, Mail, ChevronDown } from "lucide-react"
 import ThreeNameParticles from "./ThreeNameParticles"
 
 /**
- * Intro card. Sits over the fixed Spline scene, content anchored bottom-left.
- * Staggered fade-up reveal.
+ * Intro card. Sits over the fixed particle field, content anchored bottom-left.
+ * Staggered CSS fade-up reveal on mount + motion scroll-parallax: the whole
+ * content block drifts up and fades as you scroll into the first section.
  */
 export default function Hero() {
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
 
+  const ref = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  })
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -120])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduced ? 1 : 0])
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
   return (
     <section
       id="home"
+      ref={ref}
       className="relative min-h-screen flex items-end overflow-hidden"
-      // pointer-events: none so the Spline scene behind us receives mouse
-      // events (hovering over blocks plays the scene's built-in animations).
-      // The hero's buttons / photo / social links opt back in with
-      // pointer-events-auto on themselves.
+      // pointer-events: none so the particle field behind us receives mouse
+      // events (cursor force on the cloud). The hero's buttons / photo / social
+      // links opt back in with pointer-events-auto on themselves.
       style={{ background: "transparent", pointerEvents: "none" }}
     >
-      {/* Subtle dark overlay so the headline reads on top of the Spline scene */}
+      {/* Subtle dark overlay so the headline reads on top of the scene */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
@@ -32,7 +45,9 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative z-10 pointer-events-none w-full max-w-[90%] sm:max-w-md lg:max-w-3xl px-6 md:px-12 pb-12 md:pb-16 pt-32">
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="relative z-10 pointer-events-none w-full max-w-[90%] sm:max-w-md lg:max-w-3xl px-6 md:px-12 pb-12 md:pb-16 pt-32">
         {/* Profile photo */}
         <div
           className="opacity-0 animate-fade-up mb-5 md:mb-6"
@@ -78,9 +93,11 @@ export default function Hero() {
           Junior · CIS · Penn '27
         </p>
 
-        {/* Heading — particle text. Two lines: ABDULLAH (white) + GOHER (green). */}
+        {/* Heading — name permanently dissolved into ~1600 particles.
+            pointer-events-none so the cursor also reaches the particle field
+            behind it; the name's scatter is driven by a window-wide listener. */}
         <h1
-          className="opacity-0 animate-fade-up font-bold uppercase mb-3 md:mb-5 pointer-events-auto"
+          className="opacity-0 animate-fade-up font-bold uppercase mb-3 md:mb-5"
           style={{
             animationDelay: "0.2s",
             color: "var(--c-fg)",
@@ -89,9 +106,19 @@ export default function Hero() {
             letterSpacing: "-0.05em",
           }}
         >
-          <ThreeNameParticles text="ABDULLAH" color="hsl(0, 0%, 96%)" />
+          <ThreeNameParticles
+            text="ABDULLAH"
+            colorFrom="#7dd3fc"
+            colorTo="#a855f7"
+            particleCount={2400}
+          />
           <br />
-          <ThreeNameParticles text="GOHER" color="hsl(119, 99%, 46%)" />
+          <ThreeNameParticles
+            text="GOHER"
+            colorFrom="#4f7cff"
+            colorTo="#a855f7"
+            particleCount={1500}
+          />
         </h1>
 
         {/* Subheading */}
@@ -228,7 +255,27 @@ export default function Hero() {
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        aria-hidden="true"
+        style={{ opacity: cueOpacity }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
+      >
+        <span
+          className="text-[0.62rem] uppercase tracking-[0.22em]"
+          style={{ color: "hsl(var(--muted-foreground))" }}
+        >
+          Scroll
+        </span>
+        <motion.div
+          animate={reduced ? undefined : { y: [0, 7, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} style={{ color: "var(--c-primary)" }} />
+        </motion.div>
+      </motion.div>
     </section>
   )
 }
