@@ -221,14 +221,14 @@ export default function ThreeNameParticles({
 
     const repelRadius = Math.max(48, fontSize * 0.7)
     const repelStrength = fontSize * 20
-    const returnStrength = 20 // tighter spring → dots snap precisely onto glyphs
-    const damping = 0.78
+    const returnStrength = 38 // snappier spring → dots form / reform faster
+    const damping = 0.72
 
     const animate = () => {
       raf = requestAnimationFrame(animate)
       const dt = Math.min(clock.getDelta(), 0.05)
       const t = clock.elapsedTime
-      if (assembled < 1) assembled = Math.min(1, assembled + dt * 0.8)
+      if (assembled < 1) assembled = Math.min(1, assembled + dt * 1.6)
 
       const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute
       const pos = posAttr.array as Float32Array
