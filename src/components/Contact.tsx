@@ -143,8 +143,8 @@ export default function Contact() {
               Send a quick email
             </button>
             <a
-              href="/files/resume.pdf"
-              download="Abdullah_Goher_Resume.pdf"
+              href="/files/Abdullah_AI_resume.pdf"
+              download="Abdullah_resume.pdf"
               target="_blank"
               rel="noreferrer"
               className="btn-secondary text-sm"

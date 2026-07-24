@@ -171,7 +171,7 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
 
           {/* CTA */}
           <a
-            href="/files/resume.pdf"
+            href="/files/Abdullah_AI_resume.pdf"
             download="Abdullah_Goher_Resume.pdf"
             target="_blank"
             rel="noreferrer"
@@ -217,7 +217,7 @@ export default function Header({ activeSection, setActiveSection }: HeaderProps)
                 )
               })}
               <a
-                href="/files/resume.pdf"
+                href="/files/Abdullah_AI_resume.pdf"
                 download="Abdullah_Goher_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"

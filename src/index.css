@@ -212,6 +212,155 @@
   .glow-primary {
     box-shadow: 0 0 22px hsl(var(--primary) / 0.45);
   }
+
+  /* ===== Experience node graph ===== */
+  .xpg {
+    width: 100%;
+  }
+  .xpg-stage {
+    position: relative;
+    height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 45%, #10162b 0%, #0a0e1c 55%, #06080f 100%);
+    border: 1px solid rgba(120, 140, 255, 0.14);
+  }
+  .xpg-edges {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .xpg-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    z-index: 2;
+    will-change: transform, opacity;
+  }
+  .xpg-dot {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    border: 1.5px solid;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+  }
+  .xpg-hub .xpg-dot {
+    width: 46px;
+    height: 46px;
+  }
+  .xpg-name {
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    color: hsl(var(--muted-foreground));
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+  .xpg-node:hover .xpg-dot,
+  .xpg-node:focus-visible .xpg-dot {
+    transform: scale(1.16);
+  }
+  .xpg-node:hover .xpg-name,
+  .xpg-node:focus-visible .xpg-name {
+    color: var(--c-fg);
+  }
+  .xpg-card {
+    margin-top: 16px;
+    border-radius: 14px;
+    background: hsl(var(--background) / 0.92);
+    border: 1px solid hsl(var(--border));
+    border-left: 3px solid var(--neon-violet);
+    padding: 18px 20px;
+    min-height: 188px;
+    transition: border-color 0.25s ease, opacity 0.45s ease;
+  }
+  .xpg-card-role {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--c-fg);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .xpg-visit {
+    color: hsl(var(--muted-foreground));
+    transition: color 0.18s ease;
+  }
+  .xpg-visit:hover {
+    color: var(--c-primary);
+  }
+  .xpg-card-meta {
+    font-size: 0.78rem;
+    color: hsl(var(--muted-foreground));
+    margin: 0 0 11px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .xpg-card-meta .dot {
+    opacity: 0.5;
+  }
+  .xpg-card-meta .mi {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .xpg-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: hsl(var(--foreground) / 0.82);
+    margin: 0 0 12px;
+  }
+  .xpg-card ul {
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .xpg-card li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: hsl(var(--foreground) / 0.78);
+    display: flex;
+    gap: 9px;
+  }
+  .xpg-card li::before {
+    content: "";
+    flex: 0 0 6px;
+    height: 6px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: var(--ac, var(--neon-violet));
+  }
+  .xpg-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .xpg-chip {
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground) / 0.85);
+  }
 }
 
 /* Respect reduced-motion: kill the smooth-scroll + entrance animations */

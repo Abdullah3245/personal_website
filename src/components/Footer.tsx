@@ -32,7 +32,7 @@ export default function Footer() {
             {[
               { Icon: Github, href: "https://github.com/Abdullah3245", label: "GitHub" },
               { Icon: Linkedin, href: "https://www.linkedin.com/in/abdullah-goher-801ba227b/", label: "LinkedIn" },
-              { Icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu", label: "Email" },
+              { Icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@engineering.upenn.edu", label: "Email" },
             ].map(({ Icon, href, label }) => (
               <a
                 key={label}
