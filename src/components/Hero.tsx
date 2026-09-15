@@ -90,7 +90,7 @@ export default function Hero() {
           className="micro-label-accent opacity-0 animate-fade-up mb-4"
           style={{ animationDelay: "0.1s" }}
         >
-          Junior · CIS · Penn '27
+          CIS · B.S.E. + M.S.E. · Penn '27
         </p>
 
         {/* Heading — name permanently dissolved into ~1600 particles.
@@ -196,7 +196,7 @@ export default function Hero() {
               letterSpacing: "0.04em",
             }}
           >
-            Philadelphia, PA · 4 internships shipped · ML / SWE / Data
+            Philadelphia, PA · Founding engineer · ML / SWE / Data
           </p>
 
           <span

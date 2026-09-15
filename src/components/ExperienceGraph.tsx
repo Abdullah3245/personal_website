@@ -24,7 +24,7 @@ interface RoleNode {
 
 const HUB = { id: "hub", label: "Abdullah", fx: 0.5, fy: 0.5, color: "#b9a7ff" }
 
-// Even pentagon around the hub: angles at -90° (top), then clockwise every 72°.
+// Even square around the hub: angles at -90° (top), then clockwise every 90°.
 // rx/ry are fractions of the stage; positions computed once below.
 const ROLES: RoleNode[] = [
   {
@@ -37,7 +37,7 @@ const ROLES: RoleNode[] = [
     icon: "ml",
     role: "Founding AI Engineer",
     type: "Full-time",
-    period: "May 2026 – Present",
+    period: "May 2026 – Sep 2026",
     location: "Saint Louis, MO",
     description:
       "Runtime AI-governance platform auditing LLMs for demographic fairness.",
@@ -49,11 +49,11 @@ const ROLES: RoleNode[] = [
     website: "https://aeternallabs.ai",
   },
   {
-    // upper-right
+    // right
     id: "css",
     label: "CSS Lab",
-    fx: 0.805,
-    fy: 0.385,
+    fx: 0.83,
+    fy: 0.5,
     color: "#4f7cff",
     icon: "research",
     role: "Data Science Research Assistant",
@@ -71,11 +71,11 @@ const ROLES: RoleNode[] = [
     website: "https://css.seas.upenn.edu/",
   },
   {
-    // lower-right
+    // bottom
     id: "chop",
     label: "CHOP",
-    fx: 0.69,
-    fy: 0.8,
+    fx: 0.5,
+    fy: 0.83,
     color: "#38bdf8",
     icon: "frontend",
     role: "Full Stack Web Developer",
@@ -92,32 +92,11 @@ const ROLES: RoleNode[] = [
     website: "https://www.research.chop.edu/people/birkan-tunc",
   },
   {
-    // lower-left
-    id: "clab",
-    label: "Clab AI",
-    fx: 0.31,
-    fy: 0.8,
-    color: "#6d6bff",
-    icon: "intern",
-    role: "Artificial Intelligence Intern",
-    type: "Internship",
-    period: "May 2024 – Aug 2024",
-    location: "Hybrid · Nashville, TN",
-    description:
-      "AI-powered college-application assistant used by 100+ students.",
-    achievements: [
-      "Fine-tuned LLMs on hundreds of accepted essays using RLHF to personalize writing guidance",
-      "Built hyperparameter-tuned Random Forest / Linear Regression models predicting financial-aid eligibility at 82% R², with EDA across 100+ universities",
-    ],
-    tech: ["Python", "Random Forest", "Linear Regression", "RLHF", "LLMs", "EDA"],
-    website: "https://clabapp.ai/signin",
-  },
-  {
-    // upper-left
+    // left
     id: "pennadapt",
     label: "PennAdapt",
-    fx: 0.195,
-    fy: 0.385,
+    fx: 0.17,
+    fy: 0.5,
     color: "#a855f7",
     icon: "ml",
     role: "Machine Learning Engineer",
@@ -138,11 +117,10 @@ const ROLES: RoleNode[] = [
 
 // emergence order (visual, clockwise from the top). spokes hub→role; shared
 // dashed cross-links connect roles in the same domain.
-const ORDER = ["aeternal", "css", "chop", "clab", "pennadapt"]
+const ORDER = ["aeternal", "css", "chop", "pennadapt"]
 const SHARED: [string, string][] = [
   ["aeternal", "pennadapt"], // ML thread
-  ["pennadapt", "clab"], // ML thread
-  ["css", "clab"], // data-science thread
+  ["css", "chop"], // full-stack thread
 ]
 
 const ICONS = { ml: Cpu, research: FlaskConical, frontend: Code2, intern: Briefcase }
@@ -567,13 +545,13 @@ export default function ExperienceGraph() {
             </p>
             <p className="xpg-card-desc">
               A Computer Science student at the University of Pennsylvania who
-              likes building AI systems that actually ship. Currently founding
-              engineer at AeternalLabs, building the backend and ML
+              likes building AI systems that actually ship. Most recently the
+              founding engineer at AeternalLabs, where I built the backend and ML
               infrastructure for a runtime AI-governance platform that audits
               LLMs for demographic fairness. Before that: large-scale ML and
-              full-stack work across Penn's CSS Lab, PennAdapt, and Clab AI,
-              plus solo builds like Research Swarm (a LangGraph multi-agent
-              research system) and a RoBERTa news classifier at 91.75% accuracy.
+              full-stack work across Penn's CSS Lab, PennAdapt, and CHOP, plus
+              solo builds like Research Swarm (a LangGraph multi-agent research
+              system) and a RoBERTa news classifier at 91.75% accuracy.
             </p>
             <ul style={{ ["--ac" as string]: HUB.color }}>
               <li>

@@ -20,9 +20,9 @@ export default function Experience() {
             className="mt-4 max-w-xl"
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
-            ML at AeternalLabs and PennAdapt, research at Penn's CSS Lab,
-            full-stack engineering at CHOP, and analytics at Clab AI. Hover any
-            node to explore the role.
+            Founding engineer at AeternalLabs, computer vision at PennAdapt,
+            research at Penn's CSS Lab, and full-stack engineering at CHOP.
+            Hover any node to explore the role.
           </p>
         </header>
 

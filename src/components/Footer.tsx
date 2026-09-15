@@ -24,7 +24,7 @@ export default function Footer() {
               className="text-sm mt-1"
               style={{ color: "hsl(var(--muted-foreground))" }}
             >
-              Junior at the University of Pennsylvania
+              CS, B.S.E. + M.S.E., University of Pennsylvania, Class of 2027
             </p>
           </div>
 

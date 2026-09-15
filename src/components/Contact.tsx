@@ -69,8 +69,8 @@ export default function Contact() {
             className="mt-4 max-w-xl"
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
-            Open to internships, research collaborations, and interesting
-            problems.
+            Open to full-time software and AI engineering roles starting
+            June 2027, research collaborations, and interesting problems.
           </p>
         </header>
 
