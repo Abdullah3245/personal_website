@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Cpu, FlaskConical, Code2, Briefcase, Network, MapPin, Calendar, ExternalLink } from "lucide-react"
+import { Cpu, FlaskConical, Code2, Briefcase, GraduationCap, Network, MapPin, Calendar, ExternalLink } from "lucide-react"
 
 /* ------------------------------------------------------------------ data */
 
@@ -11,7 +11,7 @@ interface RoleNode {
   fx: number // fractional x position in the stage (0..1)
   fy: number // fractional y position in the stage (0..1)
   color: string
-  icon: "ml" | "research" | "frontend" | "intern"
+  icon: "ml" | "research" | "frontend" | "intern" | "teach"
   role: string
   type: string
   period: string
@@ -24,7 +24,7 @@ interface RoleNode {
 
 const HUB = { id: "hub", label: "Abdullah", fx: 0.5, fy: 0.5, color: "#b9a7ff" }
 
-// Even square around the hub: angles at -90° (top), then clockwise every 90°.
+// Even pentagon around the hub: angles at -90° (top), then clockwise every 72°.
 // rx/ry are fractions of the stage; positions computed once below.
 const ROLES: RoleNode[] = [
   {
@@ -35,37 +35,39 @@ const ROLES: RoleNode[] = [
     fy: 0.15,
     color: "#d946ef",
     icon: "ml",
-    role: "Founding AI Engineer",
-    type: "Full-time",
+    role: "Founding Software Engineer",
+    type: "Full-time · first engineering hire",
     period: "May 2026 – Sep 2026",
     location: "Saint Louis, MO",
     description:
-      "Runtime AI-governance platform auditing LLMs for demographic fairness.",
+      "AI-evaluation platform for lenders, hospitals, and other regulated businesses.",
     achievements: [
-      "Built the backend integration layer (Express API gateway, PostgreSQL persistence, caching, and batch routing) connecting Python fairness-scoring engines to a multi-tenant production pipeline",
-      "Shipped FHIR R4 clinical-data ingestion and a real-time drift-monitoring dashboard, plus a streaming evaluation pipeline featured in the seed pitch",
+      "Built the harness that tests whether autonomous AI pipelines are safe and fair: it inverts the demographics in a prompt and runs both versions through models from 8 providers in parallel (a thread pool made that 1.88x faster)",
+      "Owned the whole codebase: React frontend, FastAPI gateway with per-provider adapters, and a PostgreSQL layer with a SHA-256 audit trail, across 18+ models",
+      "Built the scoring engine behind it: weighted statistical measures of how far two decisions diverge, with confidence bounds, across 10+ regulated domains",
+      "Set up the CI merge gate (GitHub Actions) and took the test suite from 1 test to 80 so the platform could deploy safely",
     ],
-    tech: ["Node.js", "Express", "PostgreSQL", "React", "Vite", "Python", "FHIR R4"],
+    tech: ["Python", "FastAPI", "PostgreSQL", "React", "TypeScript", "GitHub Actions"],
     website: "https://aeternallabs.ai",
   },
   {
     // right
     id: "css",
     label: "CSS Lab",
-    fx: 0.83,
-    fy: 0.5,
+    fx: 0.833,
+    fy: 0.392,
     color: "#4f7cff",
     icon: "research",
-    role: "Data Science Research Assistant",
+    role: "Lead Software Engineer Intern",
     type: "Full-time",
     period: "May 2025 – Dec 2025",
     location: "Philadelphia, PA",
     description:
       "Human-mobility research platform & large-scale geospatial analysis.",
     achievements: [
-      "Built an LLM-powered pipeline extracting structured JSON features from 100+ scholarly papers, plus a RAG layer surfacing quantitative mobility metrics",
-      "Engineered the platform backend (Express, MongoDB, MVC) with secure REST APIs and AWS S3 storage; added Cypress/Vitest tests, parallelized to cut test runtime 50%",
-      "Modeled crowd density and flow after major sporting events from multi-terabyte GPS datasets (Meta, Factori, SafeGraph) using PySpark on AWS EMR for 2026 FIFA World Cup planning",
+      "The lab's disaster-management team needed to know how crowds would move during the 2026 FIFA World Cup: processed multi-terabyte GPS datasets (Meta, Factori, SafeGraph) with PySpark on AWS EMR into crowd-density maps",
+      "Researchers were reading 100+ mobility papers by hand to pull out numbers: built an LLM-based RAG pipeline that reads each paper and extracts the metrics as structured JSON",
+      "Built Nomad, the lab's platform for sharing mobility datasets and tools (Express, MongoDB, AWS S3, React); Cypress and Vitest suites parallelized to run 50% faster",
     ],
     tech: ["Express", "MongoDB", "PySpark", "AWS EMR", "AWS S3", "RAG"],
     website: "https://css.seas.upenn.edu/",
@@ -74,19 +76,19 @@ const ROLES: RoleNode[] = [
     // bottom
     id: "chop",
     label: "CHOP",
-    fx: 0.5,
-    fy: 0.83,
+    fx: 0.706,
+    fy: 0.783,
     color: "#38bdf8",
     icon: "frontend",
     role: "Full Stack Web Developer",
     type: "Part-time",
-    period: "11/2024 – 08/2025",
+    period: "Nov 2024 – Aug 2025",
     location: "Philadelphia, PA",
     description:
       "Compsy, a full-stack web app researchers use to design behavioral and clinical experiments.",
     achievements: [
-      "Built a responsive dashboard and 15+ data-entry forms in React + Vite + Tailwind over a MongoDB REST API",
-      "Implemented secure stateless authentication (JWT in HTTP-only cookies) and context-based data fetching",
+      "Clinical researchers waited on engineers for every change to a study: built the dashboard and 15+ data-entry forms in React, Vite, and Tailwind they now use daily, responsive across desktop, tablet, and phone",
+      "Implemented stateless authentication (JWT in HTTP-only cookies) and context-based data fetching over a MongoDB REST API",
     ],
     tech: ["React", "Vite", "Tailwind", "MongoDB", "REST", "JWT"],
     website: "https://www.research.chop.edu/people/birkan-tunc",
@@ -95,8 +97,8 @@ const ROLES: RoleNode[] = [
     // left
     id: "pennadapt",
     label: "PennAdapt",
-    fx: 0.17,
-    fy: 0.5,
+    fx: 0.294,
+    fy: 0.783,
     color: "#a855f7",
     icon: "ml",
     role: "Machine Learning Engineer",
@@ -106,24 +108,45 @@ const ROLES: RoleNode[] = [
     description:
       "Penn Assistive Devices & Prosthetic Technologies.",
     achievements: [
-      "Built a real-time computer-vision model (CNNs, Vision Transformer, PyTorch) detecting 50+ classes of surgical tools at 90%+ accuracy across varying angles",
-      "Curated and annotated a 1,500+ image dataset with Penn Medicine surgeons within a 10-engineer team",
-      "Designed a multi-layer agentic AI pipeline using SOTA models (SAM 3 segmentation, ViTs) to count tools, with a RAG parent LLM to verify and approve the count",
+      "Collaborated with Penn Medicine surgeons and nurses on a team of 10 to build a real-time computer vision system that counts and identifies surgical tools during a procedure",
+      "The first model, trained on public datasets, failed in a real operating room (glare, overlapping tools, motion blur): compared training images against OR footage to find the gap, then curated and annotated 1,500+ images with clinicians",
+      "Retrained CNN and Vision Transformer models to 90%+ accuracy across 75 tool classes, with a verification step (SAM segmentation, ViT classification, RAG check) before a count is shown",
     ],
-    tech: ["PyTorch", "Computer Vision", "ViT", "SAM 3", "RAG", "Agentic AI"],
+    tech: ["PyTorch", "Computer Vision", "ViT", "SAM", "RAG", "Agentic AI"],
     website: "https://pennadapt.wixsite.com/pennadapt",
+  },
+  {
+    // upper-left
+    id: "ta",
+    label: "Penn CIS",
+    fx: 0.167,
+    fy: 0.392,
+    color: "#f59e0b",
+    icon: "teach",
+    role: "Teaching Assistant, CIS 4480/5480 Operating Systems",
+    type: "Part-time",
+    period: "Aug 2026 – Present",
+    location: "Philadelphia, PA",
+    description:
+      "Graduate operating systems course; 13-TA staff.",
+    achievements: [
+      "Teach recitations twice a semester, assist in live lectures, and hold weekly office hours helping students debug their own kernels",
+    ],
+    tech: ["C", "Operating Systems", "Concurrency", "File Systems"],
+    website: "https://www.cis.upenn.edu/~cis5480/",
   },
 ]
 
 // emergence order (visual, clockwise from the top). spokes hub→role; shared
 // dashed cross-links connect roles in the same domain.
-const ORDER = ["aeternal", "css", "chop", "pennadapt"]
+const ORDER = ["aeternal", "css", "chop", "pennadapt", "ta"]
 const SHARED: [string, string][] = [
   ["aeternal", "pennadapt"], // ML thread
   ["css", "chop"], // full-stack thread
+  ["ta", "aeternal"], // systems thread
 ]
 
-const ICONS = { ml: Cpu, research: FlaskConical, frontend: Code2, intern: Briefcase }
+const ICONS = { ml: Cpu, research: FlaskConical, frontend: Code2, intern: Briefcase, teach: GraduationCap }
 
 /* ------------------------------------------------------- intro timeline (s) */
 const HUB_DUR = 0.5
@@ -546,12 +569,13 @@ export default function ExperienceGraph() {
             <p className="xpg-card-desc">
               A Computer Science student at the University of Pennsylvania who
               likes building AI systems that actually ship. Most recently the
-              founding engineer at AeternalLabs, where I built the backend and ML
-              infrastructure for a runtime AI-governance platform that audits
-              LLMs for demographic fairness. Before that: large-scale ML and
-              full-stack work across Penn's CSS Lab, PennAdapt, and CHOP, plus
-              solo builds like Research Swarm (a LangGraph multi-agent research
-              system) and a RoBERTa news classifier at 91.75% accuracy.
+              first engineer at AeternalLabs, where I built an AI-evaluation
+              platform end to end: the harness that tests whether an AI decision
+              changes when you flip the demographics in a prompt, the scoring
+              engine behind it, and the React interface on top. Alongside that:
+              computer vision with Penn Medicine surgeons at PennAdapt, research
+              engineering at Penn's CSS Lab, full-stack work at CHOP, and now
+              teaching the graduate operating systems course as a TA.
             </p>
             <ul style={{ ["--ac" as string]: HUB.color }}>
               <li>

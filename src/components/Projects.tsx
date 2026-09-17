@@ -17,6 +17,38 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
+    title: "SEPTA Incident-Recovery Assistant",
+    description:
+      "Senior Design with AWS and SEPTA. When a service incident happens, operators look up the recovery procedure in PDF rulebooks under time pressure. We are building an LLM assistant over those manuals that answers with the cited passage so the operator decides, not the model.",
+    image: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&auto=format&fit=crop",
+    technologies: ["LLM", "RAG", "AWS", "Python"],
+    liveUrl: "#",
+    githubUrl: "#",
+    category: "AI / Agents",
+    status: "In progress",
+    highlights: [
+      "6-student team, AWS as technical mentor, scoped with SEPTA Operations first",
+      "Retrieval over rulebooks and operating manuals",
+      "Every answer cites its source passage",
+    ],
+  },
+  {
+    title: "PENN OS",
+    description:
+      "A Unix-like operating system built from scratch in C as a team: a priority round-robin scheduler, a FAT file system with mountable volumes, and a userland shell with pipes, redirection, and job control on our own kernel and system-call layer.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
+    technologies: ["C", "Operating Systems", "Concurrency", "File Systems"],
+    liveUrl: "#",
+    githubUrl: "#",
+    category: "Systems",
+    status: "Completed",
+    highlights: [
+      "Multi-level priority round-robin scheduler",
+      "FAT file system with configurable block sizes",
+      "Shell with pipes, redirection, and job control",
+    ],
+  },
+  {
     title: "Research Swarm",
     description:
       "A LangGraph multi-agent research system: a planner fans out parallel research branches, then a cross-vendor critic verifies key claims before a cited synthesis.",
@@ -91,7 +123,7 @@ const PROJECTS: Project[] = [
     liveUrl: "#",
     githubUrl: "#",
     category: "Full Stack",
-    status: "Live",
+    status: "Archived",
     highlights: [
       "Connects 200+ alumni with custom PostgreSQL schema",
       "Search, filter, and job-posting features",

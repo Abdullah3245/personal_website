@@ -21,8 +21,8 @@ export default function Experience() {
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
             Founding engineer at AeternalLabs, computer vision at PennAdapt,
-            research at Penn's CSS Lab, and full-stack engineering at CHOP.
-            Hover any node to explore the role.
+            research at Penn's CSS Lab, full-stack engineering at CHOP, and
+            teaching the graduate OS course at Penn. Hover any node to explore the role.
           </p>
         </header>
 
