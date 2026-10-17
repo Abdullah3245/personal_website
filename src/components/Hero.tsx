@@ -238,7 +238,7 @@ export default function Hero() {
               <Linkedin size={18} />
             </a>
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@engineering.upenn.edu"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors"

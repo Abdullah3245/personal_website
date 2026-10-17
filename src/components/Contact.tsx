@@ -7,8 +7,8 @@ const CONTACTS = [
   {
     icon: Mail,
     title: "Email",
-    value: "mgoher@seas.upenn.edu",
-    href: "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu",
+    value: "mgoher@engineering.upenn.edu",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@engineering.upenn.edu",
   },
   {
     icon: Phone,
@@ -134,7 +134,7 @@ export default function Contact() {
               type="button"
               onClick={() =>
                 window.open(
-                  "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@seas.upenn.edu",
+                  "https://mail.google.com/mail/?view=cm&fs=1&to=mgoher@engineering.upenn.edu",
                   "_blank",
                 )
               }
